@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Alma — Metodologia de Autoconhecimento</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-icon">✦</span> Jogo da Alma
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#oque">O Método</a></li>
+                <li><a href="#frequencias">7 Frequências</a></li>
+                <li><a href="#preenchimento">Como Jogar</a></li>
+                <li><a href="#evolucao">Evolução</a></li>
+                <li><a href="#videos">Vídeos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Metodologia de Autoconhecimento</p>
+            <h1 class="hero-title">Jogo da Alma</h1>
+            <p class="hero-description">A vida funciona como um jogo. Não um jogo trivial, mas um sistema de experiências com regras, desafios, aprendizado e evolução. Descubra como jogá-lo.</p>
+            <a href="#oque" class="hero-cta">Entenda o Jogo <span>↓</span></a>
+        </div>
+        <div class="hero-chakra-strip">
+            <div class="chakra-dot" style="--color: #e74c3c" data-label="Segurança"></div>
+            <div class="chakra-dot" style="--color: #e67e22" data-label="Prazer"></div>
+            <div class="chakra-dot" style="--color: #f1c40f" data-label="Poder"></div>
+            <div class="chakra-dot" style="--color: #2ecc71" data-label="Conexão"></div>
+            <div class="chakra-dot" style="--color: #3498db" data-label="Expressão"></div>
+            <div class="chakra-dot" style="--color: #6c5ce7" data-label="Saber"></div>
+            <div class="chakra-dot" style="--color: #a855f7" data-label="Sentido"></div>
+        </div>
+    </section>
+
+    <section class="section section-intro" id="oque">
+        <div class="container">
+            <div class="section-header" data-animate>
+                <span class="section-tag">Introdução</span>
+                <h2>A Estrutura do Jogo da Alma</h2>
+            </div>
+            <div class="intro-grid" data-animate>
+                <div class="intro-text">
+                    <p class="lead">A vida muitas vezes pode parecer algo cruel, sem sentido, caótico, injusto — mas não é nada disso. Existe uma explicação por trás que vai fazer as coisas terem sentido.</p>
+                    <p>Todo jogo possui três elementos fundamentais: <strong>um objetivo</strong>, <strong>um sistema de pontuação</strong> e <strong>um conjunto de mecânicas</strong> que definem como jogar.</p>
+                    <p>No futebol o objetivo é simples: marcar mais gols que o adversário. Na vida, porém, o sistema é mais complexo. O Jogo da Alma não possui apenas uma forma de pontuar. Ele possui <em>sete</em>.</p>
+                </div>
+                <div class="intro-card">
+                    <div class="intro-card-icon">7</div>
+                    <h3>Frequências</h3>
+                    <p>Sete pontuações que correspondem a sete frequências fundamentais da experiência humana — os centros de energia observados há milhares de anos.</p>
+                    <div class="intro-card-emotions">
+                        <div class="emotion-group positive">
+                            <span class="emotion-label">Quando pontua:</span>
+                            <span>Alegria</span><span>Paz</span><span>Satisfação</span><span>Prazer</span><span>Sentido</span>
+                        </div>
+                        <div class="emotion-group negative">
+                            <span class="emotion-label">Quando não pontua:</span>
+                            <span>Medo</span><span>Vazio</span><span>Dor</span><span>Frustração</span><span>Sofrimento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-frequencias" id="frequencias">
+        <div class="container">
+            <div class="section-header" data-animate>
+                <span class="section-tag">Os 7 Centros</span>
+                <h2>As 7 Frequências da Experiência Humana</h2>
+                <p class="section-desc">Cada chakra representa um tipo de experiência fundamental da vida. Seu nível de felicidade é proporcional à sua capacidade de pontuar nas sete frequências.</p>
+            </div>
+
+            <div class="frequencias-grid" data-animate>
+                <div class="freq-card" style="--accent: #e74c3c">
+                    <div class="freq-number">1</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Básico</h3>
+                    <p class="freq-theme">Segurança</p>
+                    <p class="freq-desc">Sobrevivência, estabilidade, base material</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        Tem casa, comida, dinheiro, saúde e se sente seguro a nível físico e emocional.
+                    </div>
+                </div>
+
+                <div class="freq-card" style="--accent: #e67e22">
+                    <div class="freq-number">2</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Sacral</h3>
+                    <p class="freq-theme">Prazer</p>
+                    <p class="freq-desc">Emoções, criatividade, desejo</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        Tem hobbies, amigos, relações, variedade e tempo para diversão.
+                    </div>
+                </div>
+
+                <div class="freq-card" style="--accent: #f1c40f">
+                    <div class="freq-number">3</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Plexo Solar</h3>
+                    <p class="freq-theme">Poder</p>
+                    <p class="freq-desc">Autonomia, conquista, identidade</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        É importante em alguma área de sua vida e está vencendo seus desafios.
+                    </div>
+                </div>
+
+                <div class="freq-card" style="--accent: #2ecc71">
+                    <div class="freq-number">4</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Cardíaco</h3>
+                    <p class="freq-theme">Conexão</p>
+                    <p class="freq-desc">Amor, empatia, vínculos</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        Faz parte de um grupo de pessoas compatível que o ama por quem ele é, além de benefícios.
+                    </div>
+                </div>
+
+                <div class="freq-card" style="--accent: #3498db">
+                    <div class="freq-number">5</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Laríngeo</h3>
+                    <p class="freq-theme">Expressão</p>
+                    <p class="freq-desc">Comunicação, verdade, criação</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        Consegue influenciar, ser ouvido e falar sua verdade.
+                    </div>
+                </div>
+
+                <div class="freq-card" style="--accent: #6c5ce7">
+                    <div class="freq-number">6</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Frontal</h3>
+                    <p class="freq-theme">Saber</p>
+                    <p class="freq-desc">Visão, conhecimento, entendimento</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        Sabe a solução para seus problemas atuais e está progredindo na vida.
+                    </div>
+                </div>
+
+                <div class="freq-card" style="--accent: #a855f7">
+                    <div class="freq-number">7</div>
+                    <div class="freq-icon">◆</div>
+                    <h3>Coronário</h3>
+                    <p class="freq-theme">Sentido</p>
+                    <p class="freq-desc">Propósito, espiritualidade, transcendência</p>
+                    <div class="freq-max">
+                        <span class="freq-max-label">Estado máximo:</span>
+                        Acredita em algo maior, se sente especial e conectado com o espiritual.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-preenchimento" id="preenchimento">
+        <div class="container">
+            <div class="section-header" data-animate>
+                <span class="section-tag">A Chave do Jogo</span>
+                <h2>Como Preencher Suas Frequências</h2>
+                <p class="section-desc">A grande chave do Jogo da Alma: preencher as necessidades de uma forma positiva a curto e longo prazo, e de uma forma que seja positivo tanto para você como para as pessoas à sua volta.</p>
+            </div>
+
+            <div class="table-responsive" data-animate>
+                <table class="jogo-table">
+                    <thead>
+                        <tr>
+                            <th>Frequência</th>
+                            <th>Necessidade</th>
+                            <th class="col-positive">Forma Positiva</th>
+                            <th class="col-negative">Forma Negativa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #e74c3c">Básico</span></td>
+                            <td>Segurança</td>
+                            <td class="col-positive">Construir estabilidade financeira, cuidar da saúde, criar uma casa segura, planejar o futuro</td>
+                            <td class="col-negative">Viver em medo constante, acumular riqueza obsessivamente, controlar pessoas</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #e67e22">Sacral</span></td>
+                            <td>Prazer</td>
+                            <td class="col-positive">Hobbies, arte, esportes, sexualidade saudável, viajar, explorar a vida</td>
+                            <td class="col-negative">Vícios, compulsões, hipersexualidade, drogas, fuga constante da realidade</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #f1c40f">Plexo Solar</span></td>
+                            <td>Poder</td>
+                            <td class="col-positive">Desenvolver habilidades, superar desafios, construir algo significativo, liderar com responsabilidade</td>
+                            <td class="col-negative">Dominar pessoas, manipular, competir de forma destrutiva, obsessão por status</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #2ecc71">Cardíaco</span></td>
+                            <td>Conexão</td>
+                            <td class="col-positive">Amizades verdadeiras, relações saudáveis, cooperação, empatia, ajudar</td>
+                            <td class="col-negative">Dependência emocional, manipulação afetiva, não colocar limites, sacrifício</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #3498db">Laríngeo</span></td>
+                            <td>Expressão</td>
+                            <td class="col-positive">Falar a verdade, comunicar ideias, ensinar, criar arte e conteúdo</td>
+                            <td class="col-negative">Mentir, manipular narrativas, espalhar ódio, usar comunicação para atacar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #6c5ce7">Frontal</span></td>
+                            <td>Conhecimento</td>
+                            <td class="col-positive">Aprender, estudar, refletir, compreender os sistemas da vida</td>
+                            <td class="col-negative">Arrogância intelectual, achar que sabe tudo, usar conhecimento para humilhar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #a855f7">Coronário</span></td>
+                            <td>Sentido</td>
+                            <td class="col-positive">Espiritualidade saudável, propósito de vida, conexão com algo maior</td>
+                            <td class="col-negative">Fanatismo religioso, submissão cega a autoridades, fuga da realidade</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-evolucao" id="evolucao">
+        <div class="container">
+            <div class="section-header" data-animate>
+                <span class="section-tag">A Atualização</span>
+                <h2>Do Humano 1.0 ao Humano 2.0</h2>
+                <p class="section-desc">Nosso cérebro foi moldado durante centenas de milhares de anos em um ambiente hostil. Para vencer no Jogo da Alma, precisamos atualizar nosso software.</p>
+            </div>
+
+            <div class="evolucao-stats" data-animate>
+                <div class="stat-card">
+                    <span class="stat-label">Expectativa de vida (1800)</span>
+                    <span class="stat-value">~33 anos</span>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">Expectativa de vida (2025)</span>
+                    <span class="stat-value">~73 anos</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Mortalidade infantil (1800)</span>
+                    <span class="stat-value">~43%</span>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">Mortalidade infantil (2025)</span>
+                    <span class="stat-value">~3,6%</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Pobreza extrema (1800)</span>
+                    <span class="stat-value">>80%</span>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">Pobreza extrema (2025)</span>
+                    <span class="stat-value">~10%</span>
+                </div>
+            </div>
+
+            <div class="versoes-comparison" data-animate>
+                <div class="versao-card v1">
+                    <div class="versao-header">
+                        <h3>Humano 1.0</h3>
+                        <span class="versao-tag">Software Antigo</span>
+                    </div>
+                    <ul>
+                        <li>Escassez</li>
+                        <li>Sobrevivência</li>
+                        <li>Medo</li>
+                        <li>Dominação</li>
+                        <li>Separação</li>
+                        <li>Procrastinação</li>
+                        <li>Tribalismo</li>
+                    </ul>
+                </div>
+                <div class="versao-divider">
+                    <span>Atualização</span>
+                    <div class="divider-arrow">⟶</div>
+                </div>
+                <div class="versao-card v2">
+                    <div class="versao-header">
+                        <h3>Humano 2.0</h3>
+                        <span class="versao-tag">Novo Software</span>
+                    </div>
+                    <ul>
+                        <li>Abundância</li>
+                        <li>Evolução</li>
+                        <li>Coragem</li>
+                        <li>Cooperação</li>
+                        <li>Integração</li>
+                        <li>Ação consciente</li>
+                        <li>Unidade</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-header" data-animate style="margin-top: 4rem;">
+                <h3>Civilização 1.0 vs 2.0</h3>
+                <p class="section-desc">Não basta apenas nos atualizarmos — precisamos também atualizar o nosso ambiente e sociedade.</p>
+            </div>
+
+            <div class="table-responsive" data-animate>
+                <table class="jogo-table civilizacao-table">
+                    <thead>
+                        <tr>
+                            <th>Frequência</th>
+                            <th class="col-negative">Civilização 1.0</th>
+                            <th class="col-positive">Civilização 2.0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #e74c3c">Básico</span></td>
+                            <td class="col-negative">Sociedades organizadas pelo medo</td>
+                            <td class="col-positive">Estruturas que garantem segurança e estabilidade</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #e67e22">Sacral</span></td>
+                            <td class="col-negative">Cultura do vício e consumo</td>
+                            <td class="col-positive">Prazer consciente e criatividade</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #f1c40f">Plexo Solar</span></td>
+                            <td class="col-negative">Competição predatória</td>
+                            <td class="col-positive">Liderança responsável, competição regulada</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #2ecc71">Cardíaco</span></td>
+                            <td class="col-negative">Polarização e tribalismo</td>
+                            <td class="col-positive">Cooperação entre diferenças</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #3498db">Laríngeo</span></td>
+                            <td class="col-negative">Propaganda e manipulação</td>
+                            <td class="col-positive">Comunicação transparente</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #6c5ce7">Frontal</span></td>
+                            <td class="col-negative">Inconsciência, generalizações</td>
+                            <td class="col-positive">Consciência, evolução, conhecimento integrado</td>
+                        </tr>
+                        <tr>
+                            <td><span class="freq-badge" style="--accent: #a855f7">Coronário</span></td>
+                            <td class="col-negative">Dogmas e submissão</td>
+                            <td class="col-positive">Consciência e espiritualidade livre</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-desafios" id="desafios">
+        <div class="container">
+            <div class="section-header" data-animate>
+                <span class="section-tag">Os 3 Desafios</span>
+                <h2>Os Pilares Para Vencer o Jogo</h2>
+            </div>
+            <div class="desafios-grid" data-animate>
+                <div class="desafio-card">
+                    <div class="desafio-num">1</div>
+                    <h3>Conhecimento</h3>
+                    <p>Saber como o jogo funciona e como vencer. Entender as 7 frequências e como preenchê-las de forma positiva.</p>
+                </div>
+                <div class="desafio-card">
+                    <div class="desafio-num">2</div>
+                    <h3>Atualização Pessoal</h3>
+                    <p>Atualizar seu software interno — do Humano 1.0 para o 2.0. Transcender os padrões primitivos de medo, escassez e dominação.</p>
+                </div>
+                <div class="desafio-card">
+                    <div class="desafio-num">3</div>
+                    <h3>Atualização Coletiva</h3>
+                    <p>Atualizar o ambiente e a sociedade em que vivemos. Fazer parte da mudança de uma civilização 1.0 para uma 2.0.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-videos" id="videos">
+        <div class="container">
+            <div class="section-header" data-animate>
+                <span class="section-tag">Conteúdo</span>
+                <h2>Vídeos Sobre o Jogo da Alma</h2>
+                <p class="section-desc">Aprofunde-se no método assistindo aos vídeos abaixo.</p>
+            </div>
+            <div class="videos-grid" data-animate>
+                <!-- Substitua os SRC pelos links reais dos seus vídeos do YouTube -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="Vídeo 1 - Jogo da Alma" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h4>Introdução ao Jogo da Alma</h4>
+                    <p>Entenda os fundamentos da metodologia e como a vida funciona como um jogo.</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="Vídeo 2 - Jogo da Alma" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h4>As 7 Frequências</h4>
+                    <p>Conheça as sete frequências da experiência humana e como elas afetam sua vida.</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_3" title="Vídeo 3 - Jogo da Alma" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h4>Do Humano 1.0 ao 2.0</h4>
+                    <p>Aprenda a atualizar seu software interno e se libertar dos padrões primitivos.</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_4" title="Vídeo 4 - Jogo da Alma" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h4>Como Preencher as Frequências</h4>
+                    <p>Descubra formas positivas e negativas de preencher cada necessidade fundamental.</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_5" title="Vídeo 5 - Jogo da Alma" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h4>Civilização 2.0</h4>
+                    <p>Como podemos transformar a sociedade através da atualização coletiva.</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID_6" title="Vídeo 6 - Jogo da Alma" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h4>Comece Sua Jornada</h4>
+                    <p>Passos práticos para começar a jogar o Jogo da Alma no seu dia a dia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">✦</span>
+                    <span>Jogo da Alma</span>
+                </div>
+                <p class="footer-tagline">Ajudar você a entender o jogo, para que você possa ter uma vida melhor — e para que você possa fazer parte da mudança de nossa sociedade.</p>
+                <div class="footer-divider"></div>
+                <p class="footer-copy">&copy; 2026 Jogo da Alma. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
