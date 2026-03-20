@@ -214,6 +214,23 @@ body {
 }
 .chakra-page-header .desc { color:var(--text-secondary); font-size:1rem; }
 
+.scale-legend {
+    display:flex; justify-content:center; gap:0.6rem; flex-wrap:wrap;
+    margin-bottom:2rem; padding:0.7rem 1rem; border-radius:10px;
+    background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle);
+}
+.scale-legend-item {
+    display:flex; align-items:center; gap:0.3rem; font-size:0.75rem; color:var(--text-muted);
+}
+.scale-legend-num {
+    width:20px; height:20px; border-radius:5px; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:0.7rem; border:1px solid var(--border-subtle);
+}
+.scale-legend-item:nth-child(1) .scale-legend-num { color:var(--text-muted); }
+.scale-legend-item:nth-child(2) .scale-legend-num { color:#f1c40f; border-color:rgba(241,196,15,0.3); }
+.scale-legend-item:nth-child(3) .scale-legend-num { color:#e67e22; border-color:rgba(230,126,34,0.3); }
+.scale-legend-item:nth-child(4) .scale-legend-num { color:#ef4444; border-color:rgba(239,68,68,0.3); }
+
 .question-group { margin-bottom:2.5rem; }
 .question-group-header {
     display:flex; align-items:center; gap:0.8rem;
@@ -1106,6 +1123,12 @@ function buildQuiz() {
                 <div class="theme-label">${c.theme}</div>
                 <h2>${c.name}</h2>
                 <div class="desc">${c.centralQuestion}</div>
+            </div>
+            <div class="scale-legend">
+                <div class="scale-legend-item"><span class="scale-legend-num">0</span> Não tenho</div>
+                <div class="scale-legend-item"><span class="scale-legend-num">1</span> Parcialmente</div>
+                <div class="scale-legend-item"><span class="scale-legend-num">2</span> Consistente</div>
+                <div class="scale-legend-item"><span class="scale-legend-num">3</span> Prejudica não ter</div>
             </div>
         `;
 
