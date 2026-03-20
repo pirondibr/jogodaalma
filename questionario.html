@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico dos Chakras — Jogo da Alma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+    --bg-primary: #07060e;
+    --bg-secondary: #0d0b18;
+    --bg-card: #13112a;
+    --bg-card-hover: #1a1740;
+    --text-primary: #f0eef6;
+    --text-secondary: #a8a3c0;
+    --text-muted: #6b6590;
+    --accent-gold: #d4a843;
+    --accent-purple: #8b5cf6;
+    --border-subtle: rgba(139, 92, 246, 0.12);
+    --border-light: rgba(255, 255, 255, 0.06);
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --color-basico: #e74c3c;
+    --color-sacral: #e67e22;
+    --color-plexo: #f1c40f;
+    --color-cardiaco: #2ecc71;
+    --color-laringeo: #3498db;
+    --color-frontal: #6c5ce7;
+    --color-coronario: #a855f7;
+}
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ===== NAV ===== */
+.top-bar {
+    position: fixed; top:0; left:0; right:0; z-index:1000;
+    padding: 0.8rem 0;
+    background: rgba(7,6,14,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+}
+.top-bar .container {
+    display:flex; align-items:center; justify-content:space-between; max-width:900px;
+}
+.top-bar-logo {
+    font-family: var(--font-heading); font-size:1.4rem; font-weight:700;
+    color: var(--text-primary); text-decoration:none; display:flex; align-items:center; gap:0.4rem;
+}
+.top-bar-logo .icon { color: var(--accent-gold); font-size:1rem; }
+.top-bar-back {
+    color: var(--text-secondary); text-decoration:none; font-size:0.9rem;
+    display:flex; align-items:center; gap:0.3rem; transition: color 0.3s;
+}
+.top-bar-back:hover { color: var(--accent-gold); }
+
+/* ===== SCREENS ===== */
+.screen { display:none; min-height:100vh; padding-top: 4.5rem; }
+.screen.active { display:block; }
+
+/* ===== LANDING ===== */
+.landing-hero {
+    text-align:center; padding: 5rem 0 3rem;
+    background: radial-gradient(ellipse at 50% 30%, rgba(139,92,246,0.08) 0%, transparent 60%);
+}
+.landing-hero .tag {
+    display:inline-block; font-size:0.8rem; font-weight:600;
+    letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-gold);
+    margin-bottom:1.2rem; padding:0.35rem 1rem;
+    border:1px solid rgba(212,168,67,0.25); border-radius:100px;
+}
+.landing-hero h1 {
+    font-family:var(--font-heading); font-size:clamp(2.5rem,6vw,4rem);
+    font-weight:700; line-height:1.1; margin-bottom:1.2rem;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 50%, var(--accent-purple) 100%);
+    background-size:200% 200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; animation: shimmer 6s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+.landing-hero p { color:var(--text-secondary); font-size:1.15rem; max-width:600px; margin:0 auto 2rem; line-height:1.8; }
+.btn-start {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:1rem 2.5rem; background:var(--accent-gold); color:var(--bg-primary);
+    border:none; border-radius:100px; font-size:1.1rem; font-weight:600;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+}
+.btn-start:hover { transform:translateY(-2px); box-shadow:0 0 30px rgba(212,168,67,0.3); }
+.btn-skip {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.7rem 1.8rem; background:transparent;
+    border:1px solid var(--accent-purple); color:var(--accent-purple);
+    border-radius:100px; font-size:0.9rem; font-weight:500;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body); opacity:0.7;
+}
+.btn-skip:hover { opacity:1; background:rgba(139,92,246,0.1); }
+
+/* Chakra overview grid */
+.chakra-overview { padding: 0 0 5rem; }
+.chakra-overview h2 {
+    font-family:var(--font-heading); font-size:2rem; text-align:center;
+    margin-bottom:0.5rem; font-weight:700;
+}
+.chakra-overview .subtitle {
+    text-align:center; color:var(--text-secondary); font-size:1rem;
+    margin-bottom:2.5rem; max-width:550px; margin-left:auto; margin-right:auto;
+}
+.overview-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:1.2rem; }
+.overview-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:14px; padding:1.5rem; position:relative; overflow:hidden;
+    transition: all 0.3s;
+}
+.overview-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--chakra-color); opacity:0.7;
+}
+.overview-card:hover { transform:translateY(-3px); border-color: color-mix(in srgb, var(--chakra-color) 30%, transparent); }
+.overview-card h3 { font-family:var(--font-heading); font-size:1.4rem; font-weight:700; margin-bottom:0.2rem; }
+.overview-card .theme { color:var(--chakra-color); font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.6rem; }
+.overview-card .question { color:var(--text-secondary); font-size:0.95rem; font-style:italic; font-family:var(--font-heading); margin-bottom:0.8rem; }
+.overview-card .states { display:flex; gap:0.5rem; flex-wrap:wrap; }
+.state-tag {
+    font-size:0.78rem; padding:0.25rem 0.7rem; border-radius:100px; font-weight:500;
+}
+.state-tag.blocked { background:rgba(59,130,246,0.12); color:#60a5fa; border:1px solid rgba(59,130,246,0.2); }
+.state-tag.excessive { background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.2); }
+
+/* Phrase section */
+.insight-section { padding:0 0 4rem; }
+.insight-section h2 { font-family:var(--font-heading); font-size:1.8rem; text-align:center; margin-bottom:2rem; }
+.insight-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.insight-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:14px; padding:1.5rem; text-align:center;
+}
+.insight-card .emoji { font-size:1.5rem; margin-bottom:0.5rem; }
+.insight-card h4 { font-family:var(--font-heading); font-size:1.2rem; color:var(--chakra-color); margin-bottom:0.5rem; }
+.insight-card blockquote {
+    color:var(--text-secondary); font-family:var(--font-heading); font-size:1rem;
+    font-style:italic; line-height:1.6;
+}
+
+/* How it works */
+.how-section { padding:0 0 5rem; }
+.how-section h2 { font-family:var(--font-heading); font-size:1.8rem; text-align:center; margin-bottom:0.5rem; }
+.how-section .subtitle { text-align:center; color:var(--text-secondary); margin-bottom:2rem; }
+.how-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+.how-step {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:14px; padding:1.5rem; text-align:center;
+}
+.how-step .num {
+    font-family:var(--font-heading); font-size:2.5rem; font-weight:700;
+    color:var(--accent-gold); opacity:0.3; line-height:1; margin-bottom:0.3rem;
+}
+.how-step h4 { font-family:var(--font-heading); font-size:1.2rem; margin-bottom:0.5rem; }
+.how-step p { color:var(--text-secondary); font-size:0.9rem; }
+
+/* ===== QUIZ ===== */
+.quiz-screen { padding-top:4.5rem; }
+
+.quiz-progress {
+    position:sticky; top:3.5rem; z-index:50;
+    background:rgba(7,6,14,0.95); backdrop-filter:blur(15px);
+    padding:0.8rem 0; border-bottom:1px solid var(--border-subtle);
+}
+.progress-dots { display:flex; justify-content:center; gap:0.5rem; align-items:center; margin-bottom:0.5rem; }
+.progress-dot {
+    width:12px; height:12px; border-radius:50%; border:2px solid var(--text-muted);
+    background:transparent; transition:all 0.3s; cursor:pointer;
+}
+.progress-dot.done { border-color:var(--accent-gold); background:var(--accent-gold); }
+.progress-dot.current { border-color:var(--dot-color); background:var(--dot-color); transform:scale(1.3); box-shadow:0 0 12px color-mix(in srgb, var(--dot-color) 50%, transparent); }
+.progress-text { text-align:center; font-size:0.8rem; color:var(--text-muted); }
+.progress-bar-track {
+    height:3px; background:rgba(255,255,255,0.06); border-radius:3px;
+    margin-top:0.5rem; overflow:hidden;
+}
+.progress-bar-fill { height:100%; background:var(--accent-gold); border-radius:3px; transition:width 0.4s ease; }
+
+/* Chakra quiz page */
+.chakra-page { display:none; padding:2rem 0 4rem; }
+.chakra-page.active { display:block; }
+
+.chakra-page-header {
+    text-align:center; margin-bottom:2.5rem;
+    padding:2rem; border-radius:16px;
+    background: var(--bg-card);
+    border:1px solid var(--border-subtle);
+    position:relative; overflow:hidden;
+}
+.chakra-page-header::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background: var(--chakra-color);
+}
+.chakra-page-header h2 {
+    font-family:var(--font-heading); font-size:2rem; font-weight:700; margin-bottom:0.3rem;
+}
+.chakra-page-header .theme-label {
+    color:var(--chakra-color); font-size:0.9rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.15em; margin-bottom:0.5rem;
+}
+.chakra-page-header .desc { color:var(--text-secondary); font-size:1rem; }
+
+.question-group { margin-bottom:2.5rem; }
+.question-group-header {
+    display:flex; align-items:center; gap:0.8rem;
+    margin-bottom:1.2rem; padding-bottom:0.8rem;
+    border-bottom:1px solid var(--border-subtle);
+}
+.group-indicator {
+    width:8px; height:8px; border-radius:50%; flex-shrink:0;
+}
+.group-indicator.blocked { background:#60a5fa; }
+.group-indicator.excessive { background:#f87171; }
+.question-group-header h3 {
+    font-family:var(--font-heading); font-size:1.3rem; font-weight:600;
+}
+.question-group-header .group-tag {
+    font-size:0.75rem; padding:0.2rem 0.6rem; border-radius:100px; font-weight:500;
+    margin-left:auto;
+}
+.group-tag.blocked { background:rgba(59,130,246,0.12); color:#60a5fa; border:1px solid rgba(59,130,246,0.2); }
+.group-tag.excessive { background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.2); }
+
+.question-item {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:12px; padding:1rem 1.2rem; margin-bottom:0.6rem;
+    display:flex; align-items:center; gap:1rem;
+    transition: border-color 0.3s;
+}
+.question-item:hover { border-color: rgba(139,92,246,0.25); }
+.question-text { flex:1; font-size:0.95rem; color:var(--text-secondary); line-height:1.5; }
+.rating-buttons { display:flex; gap:0.4rem; flex-shrink:0; }
+.rating-btn {
+    width:40px; height:36px; border-radius:8px;
+    border:1px solid var(--border-subtle); background:transparent;
+    color:var(--text-muted); font-size:0.9rem; font-weight:600;
+    cursor:pointer; transition:all 0.2s; font-family:var(--font-body);
+}
+.rating-btn:hover { border-color:var(--accent-purple); color:var(--text-primary); }
+.rating-btn.selected { border-color:var(--accent-gold); background:rgba(212,168,67,0.15); color:var(--accent-gold); }
+.rating-btn-priority { border-color:rgba(239,68,68,0.3) !important; color:rgba(239,68,68,0.6) !important; font-size:0.85rem !important; }
+.rating-btn-priority:hover { border-color:#ef4444 !important; color:#ef4444 !important; }
+.rating-btn-priority.selected { border-color:#ef4444 !important; background:rgba(239,68,68,0.15) !important; color:#ef4444 !important; }
+
+.quiz-nav {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.5rem 0; border-top:1px solid var(--border-subtle); margin-top:1rem;
+}
+.btn-nav {
+    padding:0.8rem 2rem; border-radius:100px; font-size:0.95rem;
+    font-weight:500; cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+    display:flex; align-items:center; gap:0.4rem;
+}
+.btn-prev {
+    background:transparent; border:1px solid var(--border-subtle); color:var(--text-secondary);
+}
+.btn-prev:hover { border-color:var(--text-primary); color:var(--text-primary); }
+.btn-next {
+    background:var(--accent-gold); border:none; color:var(--bg-primary); font-weight:600;
+}
+.btn-next:hover { transform:translateY(-2px); box-shadow:0 0 25px rgba(212,168,67,0.3); }
+.btn-next:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:none; }
+
+/* ===== RESULTS ===== */
+.results-screen { padding-top:4.5rem; }
+
+.results-header {
+    text-align:center; padding:4rem 0 2rem;
+}
+.results-header h1 {
+    font-family:var(--font-heading); font-size:clamp(2rem,5vw,3rem);
+    font-weight:700; margin-bottom:0.5rem;
+}
+.results-header p { color:var(--text-secondary); font-size:1.1rem; }
+
+.results-overview {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+    gap:0.8rem; margin-bottom:3rem;
+}
+.result-mini {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:12px; padding:1rem; text-align:center; position:relative; overflow:hidden;
+}
+.result-mini::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--chakra-color);
+}
+.result-mini .name { font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.3rem; }
+.result-mini .status-label {
+    font-size:0.7rem; font-weight:600; padding:0.15rem 0.5rem;
+    border-radius:100px; display:inline-block;
+}
+.status-equilibrado { background:rgba(46,204,113,0.15); color:#2ecc71; }
+.status-bloqueado { background:rgba(59,130,246,0.15); color:#60a5fa; }
+.status-excessivo { background:rgba(239,68,68,0.15); color:#f87171; }
+.status-misto { background:rgba(168,163,192,0.15); color:var(--text-secondary); }
+
+.result-detail {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:2rem; margin-bottom:1.5rem;
+    position:relative; overflow:hidden;
+}
+.result-detail::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:var(--chakra-color);
+}
+.result-detail-header {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:1.5rem; flex-wrap:wrap; gap:0.5rem;
+}
+.result-detail-header h3 { font-family:var(--font-heading); font-size:1.6rem; font-weight:700; }
+.result-detail-header .theme-tag {
+    color:var(--chakra-color); font-size:0.8rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.12em;
+}
+.score-bars { margin-bottom:1.2rem; }
+.score-row { margin-bottom:0.8rem; }
+.score-label {
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.85rem; margin-bottom:0.3rem;
+}
+.score-label .label-text { font-weight:500; }
+.score-label .label-text.blocked-label { color:#60a5fa; }
+.score-label .label-text.excessive-label { color:#f87171; }
+.score-label .score-value { color:var(--text-muted); font-weight:600; }
+.score-track {
+    height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;
+}
+.score-fill {
+    height:100%; border-radius:4px; transition:width 1s ease;
+}
+.score-fill.blocked-fill { background:linear-gradient(90deg, #3b82f6, #60a5fa); }
+.score-fill.excessive-fill { background:linear-gradient(90deg, #ef4444, #f87171); }
+
+.result-interpretation {
+    background:rgba(255,255,255,0.02); border-radius:10px;
+    padding:1.2rem; border-left:3px solid var(--chakra-color);
+}
+.result-interpretation h4 {
+    font-family:var(--font-heading); font-size:1.1rem; margin-bottom:0.5rem;
+    color:var(--text-primary);
+}
+.result-interpretation p { color:var(--text-secondary); font-size:0.9rem; line-height:1.7; }
+.result-interpretation .phrase {
+    font-family:var(--font-heading); font-style:italic; color:var(--accent-gold);
+    font-size:1rem; margin-top:0.8rem; display:block;
+}
+
+.priority-report {
+    margin-top:3rem; margin-bottom:2rem;
+}
+.priority-report-title {
+    font-family:var(--font-heading); font-size:1.5rem; font-weight:700;
+    color:#ef4444; margin-bottom:0.3rem;
+}
+.priority-report-subtitle {
+    color:var(--text-secondary); font-size:0.95rem; margin-bottom:1.8rem;
+}
+.priority-chakra-block {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:1.5rem; margin-bottom:1rem;
+    border-left:4px solid var(--chakra-block-color, #ef4444);
+}
+.priority-chakra-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:1rem;
+}
+.priority-chakra-name {
+    font-family:var(--font-heading); font-size:1.2rem; font-weight:700;
+}
+.priority-count {
+    font-size:0.8rem; font-weight:600; padding:0.2rem 0.7rem;
+    border-radius:100px; background:rgba(239,68,68,0.12); color:#ef4444;
+}
+.priority-type-label {
+    font-size:0.75rem; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.1em; margin-bottom:0.5rem; margin-top:1rem;
+}
+.priority-type-label.blocked-label { color:#60a5fa; }
+.priority-type-label.excessive-label { color:#f87171; }
+.priority-question {
+    padding:0.5rem 0.8rem; margin-bottom:0.3rem;
+    background:rgba(255,255,255,0.02); border-radius:8px;
+    font-size:0.9rem; color:var(--text-secondary);
+    border-left:3px solid rgba(239,68,68,0.3);
+}
+.priority-empty {
+    text-align:center; padding:2rem; color:var(--text-muted);
+    font-size:0.95rem; background:var(--bg-card); border-radius:16px;
+    border:1px dashed var(--border-subtle);
+}
+
+/* ===== EXPLANATION SCREEN ===== */
+.explain-hero {
+    padding:5rem 0 3rem; text-align:center;
+}
+.explain-hero h1 {
+    font-family:var(--font-heading); font-size:2.2rem; font-weight:700;
+    margin-bottom:0.5rem; color:var(--text-primary);
+}
+.explain-hero > p {
+    color:var(--text-secondary); font-size:1.05rem; max-width:600px; margin:0 auto;
+}
+.scale-cards {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1rem; max-width:900px; margin:2.5rem auto 0;
+}
+.scale-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:1.5rem; text-align:left;
+    transition:all 0.3s;
+}
+.scale-card:hover { border-color: rgba(255,255,255,0.1); }
+.scale-number {
+    font-family:var(--font-heading); font-size:2.5rem; font-weight:700;
+    line-height:1; margin-bottom:0.5rem;
+}
+.scale-card:nth-child(1) .scale-number { color:var(--text-muted); }
+.scale-card:nth-child(2) .scale-number { color:#f1c40f; }
+.scale-card:nth-child(3) .scale-number { color:#e67e22; }
+.scale-card:nth-child(4) .scale-number { color:#ef4444; }
+.scale-card:nth-child(4) { border-color:rgba(239,68,68,0.25); }
+.scale-label {
+    font-size:1rem; font-weight:600; color:var(--text-primary); margin-bottom:0.4rem;
+}
+.scale-desc {
+    font-size:0.85rem; color:var(--text-secondary); line-height:1.5;
+}
+.explain-note {
+    max-width:700px; margin:2rem auto 0; text-align:center;
+    padding:1.5rem; background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.15);
+    border-radius:12px;
+}
+.explain-note p {
+    font-size:0.9rem; color:var(--text-secondary); line-height:1.6;
+}
+.explain-note strong { color:#ef4444; }
+.explain-cta {
+    text-align:center; margin-top:2.5rem; padding-bottom:3rem;
+}
+
+.results-footer {
+    text-align:center; padding:2rem 0 5rem;
+}
+.btn-export {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.9rem 2.2rem; background:var(--accent-purple);
+    border:1px solid var(--accent-purple); color:#fff;
+    border-radius:100px; font-size:1rem; font-weight:500;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+    margin-right:1rem;
+}
+.btn-export:hover { background:transparent; color:var(--accent-purple); }
+.btn-export:disabled { opacity:0.5; cursor:wait; }
+.btn-restart {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.9rem 2.2rem; background:transparent;
+    border:1px solid var(--accent-gold); color:var(--accent-gold);
+    border-radius:100px; font-size:1rem; font-weight:500;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+}
+.btn-restart:hover { background:var(--accent-gold); color:var(--bg-primary); }
+.pdf-overlay {
+    position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999;
+    background:rgba(10,10,15,0.85); display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:1rem;
+}
+.pdf-overlay .spinner {
+    width:48px; height:48px; border:4px solid rgba(255,255,255,0.1);
+    border-top-color:var(--accent-purple); border-radius:50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.pdf-overlay p { color:var(--text-secondary); font-size:1rem; }
+
+/* ===== CHARTS ===== */
+.charts-section { margin-bottom:3rem; }
+.charts-section h2 {
+    font-family:var(--font-heading); font-size:1.8rem; font-weight:700;
+    text-align:center; margin-bottom:0.5rem;
+}
+.charts-section .charts-subtitle {
+    text-align:center; color:var(--text-secondary); font-size:0.95rem; margin-bottom:2rem;
+}
+.charts-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+.chart-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:1.5rem; overflow:hidden;
+}
+.chart-card h3 {
+    font-family:var(--font-heading); font-size:1.3rem; font-weight:600;
+    margin-bottom:0.3rem; text-align:center;
+}
+.chart-card .chart-desc {
+    text-align:center; color:var(--text-muted); font-size:0.8rem; margin-bottom:1rem;
+}
+.chart-canvas-wrap {
+    display:flex; justify-content:center; align-items:center;
+    width:100%; overflow:hidden;
+}
+.chart-canvas-wrap canvas { max-width:100%; height:auto; }
+.chart-legend {
+    display:flex; justify-content:center; gap:1.5rem; margin-top:1rem;
+    font-size:0.8rem; color:var(--text-secondary);
+}
+.chart-legend span { display:flex; align-items:center; gap:0.4rem; }
+.legend-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+
+/* ===== LEVEL HUD ===== */
+.level-hud {
+    margin-bottom:3rem;
+}
+/* ===== LEVEL HUD ===== */
+.v2-card {
+    background: var(--bg-card);
+    border:1px solid var(--border-subtle);
+    border-radius:20px; overflow:hidden;
+    box-shadow: 0 0 80px rgba(139,92,246,0.06);
+}
+.v2-card .v2-header {
+    display:flex; align-items:center; gap:1.5rem;
+    padding:2rem; position:relative;
+    background: linear-gradient(135deg, rgba(139,92,246,0.06) 0%, rgba(212,168,67,0.04) 100%);
+    border-bottom:1px solid var(--border-subtle);
+}
+.v2-avatar {
+    width:100px; height:100px; border-radius:50%;
+    position:relative; flex-shrink:0;
+}
+.v2-avatar canvas { width:100px; height:100px; }
+.v2-avatar-center {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center;
+}
+.v2-avatar-center .v2-lvl {
+    font-family:var(--font-heading); font-size:2.2rem; font-weight:700;
+    line-height:1; display:block;
+}
+.v2-avatar-center .v2-of {
+    font-size:0.6rem; color:var(--text-muted);
+}
+.v2-info { flex:1; min-width:0; }
+.v2-info .v2-tag {
+    display:inline-block; font-size:0.6rem; font-weight:600;
+    letter-spacing:0.15em; text-transform:uppercase;
+    padding:0.15rem 0.6rem; border-radius:100px; margin-bottom:0.4rem;
+}
+.v2-info .v2-rank-name {
+    font-family:var(--font-heading); font-size:1.6rem; font-weight:700;
+    line-height:1.2; margin-bottom:0.2rem;
+}
+.v2-info .v2-desc-text {
+    color:var(--text-secondary); font-size:0.85rem; line-height:1.5;
+    margin-bottom:0.6rem;
+}
+.v2-stars { font-size:1rem; letter-spacing:3px; }
+.v2-xp-row {
+    display:flex; align-items:center; gap:0.6rem; margin-top:0.5rem;
+}
+.v2-xp-label { font-size:0.7rem; color:var(--text-muted); white-space:nowrap; min-width:50px; }
+.v2-xp-track {
+    flex:1; height:6px; background:rgba(255,255,255,0.06);
+    border-radius:3px; overflow:hidden;
+}
+.v2-xp-fill {
+    height:100%; border-radius:3px; transition:width 1.2s ease;
+    background:linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
+}
+.v2-pct { font-size:0.8rem; font-weight:700; min-width:40px; text-align:right; }
+.v2-stat-number {
+    position:absolute; top:1.2rem; right:1.5rem;
+    text-align:right;
+}
+.v2-stat-number .big-pct {
+    font-family:var(--font-heading); font-size:2.5rem; font-weight:700;
+    line-height:1;
+}
+.v2-stat-number .pct-label {
+    font-size:0.65rem; color:var(--text-muted); text-transform:uppercase;
+    letter-spacing:0.1em;
+}
+
+.v2-chakra-row {
+    display:grid; grid-template-columns:repeat(7,1fr);
+    border-top:1px solid var(--border-subtle);
+}
+.v2-chakra-cell {
+    padding:1rem 0.3rem; text-align:center;
+    border-right:1px solid var(--border-subtle);
+    position:relative; transition: background 0.3s;
+}
+.v2-chakra-cell:last-child { border-right:none; }
+.v2-chakra-cell:hover { background:rgba(255,255,255,0.02); }
+.v2-chakra-cell::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--cell-color);
+}
+.v2-cell-name {
+    font-size:0.6rem; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--text-muted); margin-bottom:0.3rem;
+}
+.v2-cell-level {
+    font-family:var(--font-heading); font-size:1.6rem; font-weight:700;
+    line-height:1; margin-bottom:0.1rem;
+}
+.v2-cell-rank { font-size:0.55rem; color:var(--text-muted); margin-bottom:0.3rem; }
+.v2-cell-bar-track {
+    width:80%; margin:0 auto; height:4px; border-radius:2px;
+    background:rgba(255,255,255,0.06); overflow:hidden;
+}
+.v2-cell-bar-fill { height:100%; border-radius:2px; background:var(--cell-color); transition:width 1s ease; }
+.v2-cell-pct { font-size:0.65rem; font-weight:600; margin-top:0.2rem; }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .how-steps { grid-template-columns:1fr; }
+    .insight-grid { grid-template-columns:1fr; }
+    .overview-grid { grid-template-columns:1fr; }
+    .question-item { flex-direction:column; align-items:stretch; gap:0.6rem; }
+    .rating-buttons { justify-content:flex-end; }
+    .results-overview { grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); }
+    .quiz-progress { top:3.2rem; }
+    .chart-card { padding:1rem; }
+    .v2-header { flex-direction:column; text-align:center; }
+    .v2-stat-number { position:static; text-align:center; margin-bottom:0.5rem; }
+    .v2-chakra-row { grid-template-columns:repeat(4,1fr); }
+    .v2-chakra-cell:nth-child(4) { border-right:none; }
+}
+@media(max-width:480px){
+    html { font-size:15px; }
+    .container { padding:0 1rem; }
+    .rating-btn { width:36px; height:32px; font-size:0.8rem; }
+}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container">
+        <a href="questionario.html" class="top-bar-logo"><span class="icon">&#10022;</span> Jogo da Alma</a>
+        <a href="index.html" class="top-bar-back">&larr; Voltar ao site</a>
+    </div>
+</div>
+
+<!-- ==================== LANDING ==================== -->
+<div class="screen active" id="screen-landing">
+
+    <div class="landing-hero">
+        <div class="container">
+            <span class="tag">Autodiagn&oacute;stico</span>
+            <h1>Diagnóstico dos Chakras</h1>
+            <p>Descubra como cada uma das 7 frequências da sua vida está funcionando. Identifique se você está bloqueado, excessivo ou equilibrado em cada centro de energia.</p>
+            <button class="btn-start" onclick="showScreen('explain')">Iniciar Diagnóstico <span>&rarr;</span></button>
+            <br><br>
+            <button class="btn-skip" onclick="skipToResults()">Ir para o final (teste) &rarr;</button>
+        </div>
+    </div>
+
+    <div class="chakra-overview">
+        <div class="container">
+            <h2>Os 7 Centros de Energia</h2>
+            <p class="subtitle">Cada chakra pode estar em dois estados negativos: bloqueado (falta) ou excessivo (excesso). O objetivo é encontrar o equilíbrio.</p>
+
+            <div class="overview-grid">
+                <div class="overview-card" style="--chakra-color:var(--color-basico)">
+                    <h3>Básico</h3>
+                    <div class="theme">Segurança</div>
+                    <p class="question">"Estou seguro?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Evita agir</span>
+                        <span class="state-tag excessive">Controla tudo</span>
+                    </div>
+                </div>
+                <div class="overview-card" style="--chakra-color:var(--color-sacral)">
+                    <h3>Sacral</h3>
+                    <div class="theme">Prazer</div>
+                    <p class="question">"Vale a pena viver isso?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Não sente</span>
+                        <span class="state-tag excessive">Sente demais</span>
+                    </div>
+                </div>
+                <div class="overview-card" style="--chakra-color:var(--color-plexo)">
+                    <h3>Plexo Solar</h3>
+                    <div class="theme">Poder</div>
+                    <p class="question">"Eu consigo agir?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Não age</span>
+                        <span class="state-tag excessive">Força demais</span>
+                    </div>
+                </div>
+                <div class="overview-card" style="--chakra-color:var(--color-cardiaco)">
+                    <h3>Cardíaco</h3>
+                    <div class="theme">Conexão</div>
+                    <p class="question">"Eu me conecto sem me perder?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Se fecha</span>
+                        <span class="state-tag excessive">Se perde</span>
+                    </div>
+                </div>
+                <div class="overview-card" style="--chakra-color:var(--color-laringeo)">
+                    <h3>Laríngeo</h3>
+                    <div class="theme">Expressão</div>
+                    <p class="question">"Eu expresso minha verdade?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Se cala</span>
+                        <span class="state-tag excessive">Fala sem filtro</span>
+                    </div>
+                </div>
+                <div class="overview-card" style="--chakra-color:var(--color-frontal)">
+                    <h3>Frontal</h3>
+                    <div class="theme">Clareza</div>
+                    <p class="question">"Eu vejo com clareza?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Não vê</span>
+                        <span class="state-tag excessive">Pensa demais</span>
+                    </div>
+                </div>
+                <div class="overview-card" style="--chakra-color:var(--color-coronario)">
+                    <h3>Coronário</h3>
+                    <div class="theme">Propósito</div>
+                    <p class="question">"Qual o sentido disso tudo?"</p>
+                    <div class="states">
+                        <span class="state-tag blocked">Sem sentido</span>
+                        <span class="state-tag excessive">Desconecta do real</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="insight-section">
+        <div class="container">
+            <h2>A Essência do Sistema</h2>
+            <div class="insight-grid">
+                <div class="insight-card" style="--chakra-color:#60a5fa">
+                    <div class="emoji">&#128309;</div>
+                    <h4>Bloqueado</h4>
+                    <blockquote>Falta de energia. Evitação, medo, travamento. O chakra não funciona o suficiente.</blockquote>
+                </div>
+                <div class="insight-card" style="--chakra-color:#f87171">
+                    <div class="emoji">&#128308;</div>
+                    <h4>Excessivo</h4>
+                    <blockquote>Excesso de energia. Controle, rigidez, impulsividade. O chakra funciona demais e sem regulação.</blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="how-section">
+        <div class="container">
+            <h2>Como Funciona</h2>
+            <p class="subtitle">O diagnóstico é simples e rápido.</p>
+            <div class="how-steps">
+                <div class="how-step">
+                    <div class="num">1</div>
+                    <h4>Responda</h4>
+                    <p>Para cada afirmação, escolha o quanto você se identifica: 0 (nada), 1 (às vezes) ou 2 (muito).</p>
+                </div>
+                <div class="how-step">
+                    <div class="num">2</div>
+                    <h4>Navegue</h4>
+                    <p>Uma tela por chakra, com todas as perguntas. São 7 telas ao todo — uma para cada centro de energia.</p>
+                </div>
+                <div class="how-step">
+                    <div class="num">3</div>
+                    <h4>Descubra</h4>
+                    <p>Veja seu perfil: bloqueado, excessivo ou equilibrado em cada chakra, com interpretação e recomendações.</p>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:2.5rem;">
+                <button class="btn-start" onclick="showScreen('explain')">Começar Agora <span>&rarr;</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== EXPLANATION ==================== -->
+<div class="screen" id="screen-explain">
+    <div class="explain-hero">
+        <div class="container">
+            <span class="tag">Como Responder</span>
+            <h1>Escala de Resposta</h1>
+            <p>Cada afirmação descreve um comportamento ou padrão. Leia com atenção e escolha o número que mais representa você hoje.</p>
+
+            <div class="scale-cards">
+                <div class="scale-card">
+                    <div class="scale-number">0</div>
+                    <div class="scale-label">Não me identifico</div>
+                    <div class="scale-desc">Esse comportamento não faz parte da minha vida. Não me reconheço nessa afirmação.</div>
+                </div>
+                <div class="scale-card">
+                    <div class="scale-number">1</div>
+                    <div class="scale-label">Me identifico às vezes</div>
+                    <div class="scale-desc">Acontece em alguns momentos, mas não é constante. Depende da situação.</div>
+                </div>
+                <div class="scale-card">
+                    <div class="scale-number">2</div>
+                    <div class="scale-label">Me identifico muito</div>
+                    <div class="scale-desc">Esse padrão é frequente na minha vida. Me reconheço bastante nessa afirmação.</div>
+                </div>
+                <div class="scale-card">
+                    <div class="scale-number">3</div>
+                    <div class="scale-label">Me prejudica muito atualmente</div>
+                    <div class="scale-desc">Além de me identificar, isso me causa prejuízo real. É algo que impacta negativamente minha vida hoje.</div>
+                </div>
+            </div>
+
+            <div class="explain-note">
+                <p>O nível <strong>3</strong> significa que é algo que você reconhece que atualmente te prejudica muito na sua vida, e seria algo que você quer ou precisa resolver com <strong>prioridade alta</strong>. Essas questões serão destacadas em um relatório especial de priorização.</p>
+            </div>
+
+            <div class="explain-cta">
+                <button class="btn-start" onclick="startQuiz()">Começar Questionário <span>&rarr;</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div class="screen" id="screen-quiz">
+    <div class="quiz-progress">
+        <div class="container">
+            <div class="progress-dots" id="progressDots"></div>
+            <div class="progress-text" id="progressText"></div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBar"></div></div>
+        </div>
+    </div>
+    <div class="container" id="quizContainer"></div>
+</div>
+
+<!-- ==================== RESULTS ==================== -->
+<div class="screen" id="screen-results">
+    <div class="container">
+        <div class="results-header">
+            <h1>Seu Diagnóstico</h1>
+            <p>Veja como cada centro de energia está funcionando na sua vida.</p>
+        </div>
+        <div class="level-hud" id="levelHud"></div>
+
+        <div class="results-overview" id="resultsOverview"></div>
+
+        <div class="charts-section">
+            <h2>Visão Geral</h2>
+            <p class="charts-subtitle">Seus 7 chakras em diferentes visualizações.</p>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Mapa dos Chakras</h3>
+                    <p class="chart-desc">Gráfico radar — visão geral do equilíbrio entre bloqueado e excessivo</p>
+                    <div class="chart-canvas-wrap"><canvas id="chartRadar" width="500" height="500"></canvas></div>
+                    <div class="chart-legend">
+                        <span><span class="legend-dot" style="background:#60a5fa"></span> Bloqueado</span>
+                        <span><span class="legend-dot" style="background:#f87171"></span> Excessivo</span>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Comparativo por Chakra</h3>
+                    <p class="chart-desc">Barras horizontais — pontuação bloqueado vs excessivo lado a lado</p>
+                    <div class="chart-canvas-wrap"><canvas id="chartBars" width="700" height="380"></canvas></div>
+                    <div class="chart-legend">
+                        <span><span class="legend-dot" style="background:#60a5fa"></span> Bloqueado</span>
+                        <span><span class="legend-dot" style="background:#f87171"></span> Excessivo</span>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Equilíbrio Total por Chakra</h3>
+                    <p class="chart-desc">Soma total — quanto do chakra está em equilíbrio vs desequilíbrio (bloqueado + excessivo combinados)</p>
+                    <div class="chart-canvas-wrap"><canvas id="chartTotal" width="750" height="420"></canvas></div>
+                    <div class="chart-legend">
+                        <span><span class="legend-dot" style="background:#2ecc71"></span> Equilíbrio</span>
+                        <span><span class="legend-dot" style="background:rgba(239,68,68,0.6)"></span> Desequilíbrio</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="priorityReport"></div>
+
+        <div id="resultsDetails"></div>
+        <div class="results-footer">
+            <button class="btn-export" onclick="exportPDF()">&#128196; Exportar PDF</button>
+            <button class="btn-restart" onclick="restartQuiz()">&#x21bb; Refazer Diagnóstico</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const CHAKRAS = [
+  {
+    id:'basico', name:'Básico', theme:'Segurança, Sobrevivência, Estabilidade',
+    color:'#e74c3c', emoji:'&#x1F534;',
+    centralQuestion:'"Estou seguro?"',
+    phrase:'"Segurança não vem antes da ação. Segurança é construída através da ação."',
+    blocked: [
+      'Evito agir quando não tenho certeza de que vai dar certo',
+      'Procrastino tarefas importantes por medo ou insegurança',
+      'Tenho dificuldade de lidar com pressão ou situações difíceis',
+      'Sinto medo frequente de perder dinheiro, estabilidade ou segurança',
+      'Espero "me sentir pronto" antes de começar algo',
+      'Evito me expor ou correr riscos',
+      'Tenho dificuldade em manter constância e disciplina',
+      'Quando algo dá errado, me paraliso ou desanimo rápido',
+      'Sinto que não tenho controle sobre minha vida prática',
+      'Tenho dificuldade em sair da zona de conforto'
+    ],
+    excessive: [
+      'Sinto necessidade de controlar tudo ao meu redor',
+      'Tenho dificuldade em relaxar ou "desligar"',
+      'Fico ansioso quando algo sai do planejado',
+      'Trabalho demais por medo de faltar ou dar errado',
+      'Tenho dificuldade em confiar nas pessoas ou no fluxo da vida',
+      'Me sinto constantemente em estado de alerta',
+      'Fico irritado quando perco controle de uma situação',
+      'Tenho apego excessivo a dinheiro, segurança ou estabilidade',
+      'Sinto que preciso prever tudo antes de agir',
+      'Tenho dificuldade em delegar ou soltar responsabilidades'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Tendência à evitação, medo e paralisação. Seu sistema interpreta o mundo como perigoso. Estratégia interna: "não agir para não perder".', rec:'Ação mínima com risco controlado. Fazer mesmo com medo (micro passos). Criar evidência de segurança através da ação.' },
+      excessive: { title:'Predominância Excessivo', text:'Tendência a controle, rigidez e tensão. Seu sistema tenta garantir segurança a qualquer custo. Estratégia interna: "controlar tudo para não perder".', rec:'Soltar controle de forma consciente. Delegar pequenas coisas. Aceitar pequenas incertezas. Praticar "não saber tudo".' },
+      balanced: { title:'Equilibrado', text:'Consegue agir mesmo com risco. Lida com incerteza. Alterna controle e flexibilidade.', rec:'Continue mantendo esse equilíbrio. Observe se em momentos de estresse você tende a travar ou controlar.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre travar e forçar. Loop clássico de raiz desregulada — muito comum.', rec:'Observe o padrão: quando trava e quando força. Trabalhe a crença central sobre segurança.' }
+    }
+  },
+  {
+    id:'sacral', name:'Sacral', theme:'Prazer, Desejo, Emoção, Movimento',
+    color:'#e67e22', emoji:'&#x1F7E0;',
+    centralQuestion:'"Vale a pena viver isso?"',
+    phrase:'"Prazer não é o problema. O problema é fugir ou depender dele."',
+    blocked: [
+      'Tenho dificuldade de sentir prazer nas coisas simples da vida',
+      'Muitas vezes faço tudo no automático, sem entusiasmo',
+      'Reprimo ou escondo o que estou sentindo',
+      'Tenho dificuldade de me permitir descansar ou aproveitar',
+      'Sinto culpa quando priorizo meu prazer ou bem-estar',
+      'Tenho dificuldade de perceber o que realmente desejo',
+      'Me sinto desconectado das minhas emoções',
+      'Evito demonstrar vulnerabilidade ou sensibilidade',
+      'Minha vida anda sem muita leveza, espontaneidade ou diversão',
+      'Costumo me fechar emocionalmente quando algo me frustra'
+    ],
+    excessive: [
+      'Tenho dificuldade de controlar impulsos ligados a prazer ou recompensa',
+      'Busco distrações frequentes para escapar do desconforto',
+      'Oscilo emocionalmente com facilidade',
+      'Tenho tendência a exagerar em comida, prazer, compras ou entretenimento',
+      'Quando fico frustrado, procuro alívio imediato',
+      'Tenho dificuldade em sustentar constância quando algo perde a graça',
+      'Meu humor interfere demais nas minhas decisões',
+      'Sinto necessidade frequente de estímulo, novidade ou intensidade',
+      'Às vezes confundo prazer imediato com algo que realmente me faz bem',
+      'Tenho dificuldade de lidar com o vazio sem preencher com alguma coisa'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Tendência à repressão emocional, apatia e desconexão do prazer. Seu sistema aprendeu que sentir pode ser perigoso, inútil ou errado. Estratégia: "melhor não sentir tanto".', rec:'Inserir pequenos momentos de prazer consciente. Nomear emoções. Permitir mais leveza sem culpa.' },
+      excessive: { title:'Predominância Excessivo', text:'Tendência à impulsividade, busca de prazer e fuga do desconforto. Seu sistema usa o prazer como regulação rápida. Estratégia: "preciso me sentir bem agora".', rec:'Pausar antes do impulso. Separar carência de desejo real. Criar prazer mais consciente e menos automático.' },
+      balanced: { title:'Equilibrado', text:'Consegue sentir sem se afogar no sentir. Busca prazer sem depender dele. Tem acesso a desejo, emoção e regulação.', rec:'Mantenha a atenção ao prazer consciente. Em momentos de estresse, observe se tende a cortar ou exagerar.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre apatia e excesso. Loop clássico: repressão → explosão → culpa → repressão. Muito comum.', rec:'Observe o ciclo. Trabalhe a relação com prazer e emoção sem julgamento.' }
+    }
+  },
+  {
+    id:'plexo', name:'Plexo Solar', theme:'Poder, Ação, Identidade, Direção',
+    color:'#f1c40f', emoji:'&#x1F7E1;',
+    centralQuestion:'"Eu consigo agir?"',
+    phrase:'"Poder não é controlar tudo. Poder é agir com consciência."',
+    blocked: [
+      'Tenho dificuldade de tomar decisões',
+      'Procrastino mesmo sabendo o que precisa ser feito',
+      'Sinto que não sou capaz o suficiente',
+      'Evito assumir responsabilidade por medo de errar',
+      'Tenho dificuldade de me posicionar',
+      'Me comparo com os outros e me sinto inferior',
+      'Espero validação antes de agir',
+      'Começo coisas e não termino',
+      'Tenho dificuldade de sustentar disciplina',
+      'Evito conflitos ou situações onde preciso me impor'
+    ],
+    excessive: [
+      'Tento controlar pessoas ou situações ao meu redor',
+      'Tenho dificuldade de delegar',
+      'Me cobro demais e nunca acho que é suficiente',
+      'Me sobrecarrego com responsabilidades',
+      'Fico irritado quando as coisas não saem como quero',
+      'Tenho dificuldade de relaxar sem me sentir improdutivo',
+      'Quero resultados rápidos e fico impaciente',
+      'Tenho tendência a impor minha visão',
+      'Me identifico demais com performance e resultado',
+      'Tenho dificuldade em aceitar erro (meu ou dos outros)'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Tendência à omissão, procrastinação e insegurança. Perde oportunidades por não agir. Estratégia: "melhor não agir do que errar".', rec:'Ação imperfeita. Tomar pequenas decisões rapidamente. Agir sem esperar confiança total. Criar evidência de capacidade.' },
+      excessive: { title:'Predominância Excessivo', text:'Tendência a controle, pressão e sobrecarga. Age com tensão e desgaste. Estratégia: "preciso fazer dar certo a qualquer custo".', rec:'Ação com consciência. Reduzir controle. Delegar pequenas tarefas. Aceitar erro como parte do processo.' },
+      balanced: { title:'Equilibrado', text:'Age com consistência. Assume responsabilidade sem se destruir. Equilibra ação e flexibilidade.', rec:'Forte ponto de equilíbrio. Mantenha a consciência sobre pressão interna e procrastinação.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre procrastinar e sobrecarregar. Loop: não age → culpa → força → esgota → trava de novo. Um dos mais comuns do Plexo.', rec:'Identifique o gatilho do ciclo. Trabalhe a relação com poder e erro.' }
+    }
+  },
+  {
+    id:'cardiaco', name:'Cardíaco', theme:'Amor, Conexão, Troca, Vulnerabilidade',
+    color:'#2ecc71', emoji:'&#x1F49A;',
+    centralQuestion:'"Eu me conecto sem me perder?"',
+    phrase:'"Amar não é se perder no outro. Amar é se incluir na relação."',
+    blocked: [
+      'Tenho dificuldade de me abrir emocionalmente',
+      'Evito demonstrar vulnerabilidade',
+      'Prefiro resolver tudo sozinho',
+      'Tenho dificuldade de confiar nas pessoas',
+      'Me protejo para não me machucar',
+      'Sinto dificuldade em me conectar profundamente',
+      'Tenho dificuldade de pedir ajuda',
+      'Me afasto quando algo me machuca',
+      'Evito me envolver para não sofrer',
+      'Sinto que preciso ser forte o tempo todo'
+    ],
+    excessive: [
+      'Coloco as necessidades dos outros acima das minhas',
+      'Tenho dificuldade de dizer "não"',
+      'Sinto necessidade de agradar ou ser aceito',
+      'Me envolvo emocionalmente muito rápido',
+      'Tenho medo de perder pessoas importantes',
+      'Me sinto responsável pelo bem-estar dos outros',
+      'Me doo demais e acabo me esgotando',
+      'Tenho dificuldade de me priorizar',
+      'Busco validação emocional nas relações',
+      'Permito situações que não me fazem bem para manter conexão'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Tendência ao fechamento, proteção e isolamento emocional. Evita se machucar e perde conexão. Estratégia: "melhor não me abrir".', rec:'Abertura gradual. Compartilhar mais (mesmo que pouco). Permitir ajuda. Criar espaços seguros de conexão.' },
+      excessive: { title:'Predominância Excessivo', text:'Tendência à dependência, excesso de entrega e perda de limites. Busca conexão e perde a si mesmo. Estratégia: "preciso manter o outro a qualquer custo".', rec:'Limites conscientes. Dizer "não" quando necessário. Se priorizar sem culpa. Separar amor de dependência.' },
+      balanced: { title:'Equilibrado', text:'Consegue se abrir com consciência. Mantém conexão sem se perder. Equilibra dar e receber.', rec:'Mantenha a consciência sobre quando se fecha ou se entrega demais sob pressão.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre se fechar e se perder. Loop: me fecho → sinto falta → me entrego demais → me machuco → me fecho de novo. Muito comum.', rec:'Observe o ciclo de abertura e fechamento. Trabalhe a relação com vulnerabilidade e valor próprio.' }
+    }
+  },
+  {
+    id:'laringeo', name:'Laríngeo', theme:'Comunicação, Verdade, Expressão',
+    color:'#3498db', emoji:'&#x1F535;',
+    centralQuestion:'"Eu expresso minha verdade?"',
+    phrase:'"Não é sobre falar mais. É sobre falar com verdade e consciência."',
+    blocked: [
+      'Tenho dificuldade de dizer o que penso',
+      'Evito falar para não gerar conflito',
+      'Guardo coisas que gostaria de dizer',
+      'Sinto que não consigo me expressar bem',
+      'Fico travado ao tentar me comunicar',
+      'Tenho medo de ser mal interpretado',
+      'Adapto demais minha fala para agradar',
+      'Tenho dificuldade de colocar limites verbalmente',
+      'Sinto que minha voz não tem valor',
+      'Me arrependo de não ter falado o que precisava'
+    ],
+    excessive: [
+      'Falo sem pensar e depois me arrependo',
+      'Interrompo ou falo por cima dos outros',
+      'Sinto necessidade de provar meu ponto de vista',
+      'Tenho dificuldade de ouvir de verdade',
+      'Falo demais e às vezes sem necessidade',
+      'Me comunico de forma dura ou agressiva',
+      'Tenho dificuldade de filtrar o que deve ser dito',
+      'Quero convencer os outros da minha visão',
+      'Uso a fala como forma de controle',
+      'Tenho dificuldade de lidar com opiniões diferentes'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Se cala e perde espaço. Não se expressa e acumula. Estratégia: "melhor não falar".', rec:'Expressão gradual. Falar pequenas verdades. Treinar comunicação em ambientes seguros. Escrever antes de falar.' },
+      excessive: { title:'Predominância Excessivo', text:'Fala demais e gera conflito. Impõe e perde conexão. Estratégia: "preciso falar para ser ouvido".', rec:'Consciência na fala. Pausar antes de falar. Ouvir mais ativamente. Filtrar intenção vs necessidade de falar.' },
+      balanced: { title:'Equilibrado', text:'Consegue se expressar com clareza. Sabe ouvir e falar. Comunica verdade com consciência.', rec:'Mantenha a prática de comunicação consciente. Em conflitos, observe se tende a calar ou explodir.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre calar e explodir. Loop: me calo → acumulo → explodo → me arrependo → me calo de novo. Muito comum.', rec:'Pratique comunicação intermediária — nem guardar tudo, nem falar tudo de uma vez.' }
+    }
+  },
+  {
+    id:'frontal', name:'Frontal', theme:'Clareza, Visão, Consciência',
+    color:'#6c5ce7', emoji:'&#x1F7E3;',
+    centralQuestion:'"Eu vejo com clareza?"',
+    phrase:'"Clareza não vem de pensar mais. Vem de ver, testar e ajustar."',
+    blocked: [
+      'Tenho dificuldade de entender o que está acontecendo na minha vida',
+      'Me sinto confuso com frequência',
+      'Tenho dificuldade de enxergar caminhos ou possibilidades',
+      'Sinto que estou "perdido" ou sem direção',
+      'Tenho dificuldade de refletir com clareza',
+      'Tomo decisões sem entender bem o contexto',
+      'Me deixo levar facilmente por opiniões externas',
+      'Tenho dificuldade de aprender com erros',
+      'Não consigo organizar meus pensamentos',
+      'Sinto que não tenho visão de longo prazo'
+    ],
+    excessive: [
+      'Penso demais antes de agir',
+      'Fico analisando possibilidades e cenários o tempo todo',
+      'Tenho dificuldade de tomar decisões por excesso de análise',
+      'Crio muitas hipóteses e cenários na minha mente',
+      'Me perco nos pensamentos e não ajo',
+      'Tenho dificuldade de sair do plano mental para a ação',
+      'Fico preso tentando entender tudo perfeitamente',
+      'Tenho tendência a questionar tudo o tempo todo',
+      'Sinto minha mente acelerada ou sobrecarregada',
+      'Tenho dificuldade de "desligar" a mente'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Falta de clareza gera decisões ruins. Confusão e perda de direção. Estratégia: "não sei o que fazer".', rec:'Clareza básica. Escrever pensamentos. Buscar informação simples e prática. Organizar ideias.' },
+      excessive: { title:'Predominância Excessivo', text:'Excesso de análise gera paralisação. Pensamento demais e pouca ação. Estratégia: "preciso entender tudo antes de agir".', rec:'Redução mental. Limitar análise. Tomar decisão com 70% de certeza. Sair do mental para a ação.' },
+      balanced: { title:'Equilibrado', text:'Consegue ver com clareza. Analisa sem travar. Usa pensamento como ferramenta, não como prisão.', rec:'Mantenha o equilíbrio entre reflexão e ação. Em momentos de estresse, observe se tende a ignorar ou overthink.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre agir sem pensar e pensar sem agir. Loop: ajo sem clareza → erro → penso demais → travo → ajo sem clareza de novo. Muito comum em pessoas inteligentes.', rec:'Encontre o ponto médio: clareza suficiente para agir, sem esperar entender tudo.' }
+    }
+  },
+  {
+    id:'coronario', name:'Coronário', theme:'Propósito, Sentido, Consciência Superior',
+    color:'#a855f7', emoji:'&#x26AA;',
+    centralQuestion:'"Qual o sentido disso tudo?"',
+    phrase:'"O propósito não aparece antes da ação. Ele se revela no caminho."',
+    blocked: [
+      'Sinto que a vida não tem muito sentido',
+      'Vivo no automático, sem um propósito claro',
+      'Sinto um vazio interno mesmo quando está tudo "ok"',
+      'Tenho dificuldade de ver significado nas coisas',
+      'Sinto que estou só sobrevivendo / vivendo por viver',
+      'Me sinto desconectado de algo maior',
+      'Falta inspiração ou direção mais profunda',
+      'Sinto desmotivação sem motivo claro',
+      'Tenho dificuldade de conectar minhas ações com algo maior',
+      'Sinto que falta algo, mas não sei o quê'
+    ],
+    excessive: [
+      'Vivo muito no mundo das ideias e pouco na prática',
+      'Tenho dificuldade de lidar com a realidade do dia a dia',
+      'Busco respostas espirituais para evitar agir',
+      'Me desconecto do mundo material com facilidade',
+      'Sinto que "não pertenço" ao mundo',
+      'Tenho dificuldade de sustentar rotina prática',
+      'Vivo mais no futuro / no abstrato do que no presente',
+      'Uso propósito ou espiritualidade como fuga',
+      'Tenho dificuldade de transformar visão em ação',
+      'Me sinto desconectado da realidade concreta'
+    ],
+    interpretations: {
+      blocked: { title:'Predominância Bloqueado', text:'Falta de sentido gera desmotivação. A vida vira sobrevivência. Estratégia: "só preciso viver".', rec:'Reconectar com significado. Buscar propósito em pequenas ações. Trazer intenção para o dia. Se conectar com valores e missão.' },
+      excessive: { title:'Predominância Excessivo', text:'Excesso de abstração gera desconexão da realidade. Vive no plano das ideias e pouca ação. Estratégia: "a realidade não importa tanto".', rec:'Aterrar propósito. Transformar visão em ação. Criar rotina prática. Trazer o espiritual para o concreto.' },
+      balanced: { title:'Equilibrado', text:'Conecta ação com propósito. Vive com significado. Integra espiritual e material.', rec:'Mantenha a integração entre propósito e prática. Observe se em crises existenciais tende a desconectar ou fugir.' },
+      mixed: { title:'Misto (Bloqueado + Excessivo)', text:'Oscila entre vazio e excesso de busca. Loop: nada faz sentido → busco propósito → não aplico → nada faz sentido de novo. Muito comum em fases de transição.', rec:'Reduza a busca infinita. Construa sentido vivendo, não apenas refletindo.' }
+    }
+  }
+];
+
+const answers = {};
+let currentChakraIndex = 0;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+    currentChakraIndex = 0;
+    CHAKRAS.forEach(c => {
+        answers[c.id] = { blocked: new Array(10).fill(null), excessive: new Array(10).fill(null) };
+    });
+    buildQuiz();
+    showScreen('quiz');
+    showChakraPage(0);
+}
+
+function buildQuiz() {
+    const container = document.getElementById('quizContainer');
+    container.innerHTML = '';
+
+    const dotsContainer = document.getElementById('progressDots');
+    dotsContainer.innerHTML = '';
+    CHAKRAS.forEach((c, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'progress-dot';
+        dot.style.setProperty('--dot-color', c.color);
+        dot.title = c.name;
+        dot.onclick = () => {
+            if (canNavigateTo(i)) showChakraPage(i);
+        };
+        dotsContainer.appendChild(dot);
+    });
+
+    CHAKRAS.forEach((c, ci) => {
+        const page = document.createElement('div');
+        page.className = 'chakra-page';
+        page.id = 'chakra-page-' + ci;
+        page.style.setProperty('--chakra-color', c.color);
+
+        let html = `
+            <div class="chakra-page-header" style="--chakra-color:${c.color}">
+                <div class="theme-label">${c.theme}</div>
+                <h2>${c.name}</h2>
+                <div class="desc">${c.centralQuestion}</div>
+            </div>
+        `;
+
+        html += `<div class="question-group">
+            <div class="question-group-header">
+                <div class="group-indicator blocked"></div>
+                <h3>Bloqueado</h3>
+                <span class="group-tag blocked">Falta / Evitação</span>
+            </div>`;
+        c.blocked.forEach((q, qi) => {
+            html += buildQuestionItem(c.id, 'blocked', qi, q);
+        });
+        html += '</div>';
+
+        html += `<div class="question-group">
+            <div class="question-group-header">
+                <div class="group-indicator excessive"></div>
+                <h3>Excessivo</h3>
+                <span class="group-tag excessive">Excesso / Rigidez</span>
+            </div>`;
+        c.excessive.forEach((q, qi) => {
+            html += buildQuestionItem(c.id, 'excessive', qi, q);
+        });
+        html += '</div>';
+
+        html += `<div class="quiz-nav">
+            <button class="btn-nav btn-prev" onclick="prevChakra()" ${ci === 0 ? 'style="visibility:hidden"' : ''}>&larr; Anterior</button>
+            <button class="btn-nav btn-next" onclick="nextChakra()">${ci === CHAKRAS.length - 1 ? 'Ver Resultado &rarr;' : 'Próximo &rarr;'}</button>
+        </div>`;
+
+        page.innerHTML = html;
+        container.appendChild(page);
+    });
+}
+
+function buildQuestionItem(chakraId, type, index, text) {
+    return `<div class="question-item">
+        <div class="question-text">${text}</div>
+        <div class="rating-buttons">
+            ${[0,1,2,3].map(v =>
+                `<button class="rating-btn${v === 3 ? ' rating-btn-priority' : ''}" data-chakra="${chakraId}" data-type="${type}" data-index="${index}" data-value="${v}" onclick="setAnswer(this, '${chakraId}','${type}',${index},${v})">${v}</button>`
+            ).join('')}
+        </div>
+    </div>`;
+}
+
+function setAnswer(btn, chakraId, type, index, value) {
+    answers[chakraId][type][index] = value;
+    const siblings = btn.parentElement.querySelectorAll('.rating-btn');
+    siblings.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function showChakraPage(index) {
+    currentChakraIndex = index;
+    document.querySelectorAll('.chakra-page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('chakra-page-' + index);
+    if (page) page.classList.add('active');
+    updateProgress();
+    window.scrollTo(0, 0);
+}
+
+function updateProgress() {
+    const dots = document.querySelectorAll('.progress-dot');
+    dots.forEach((d, i) => {
+        d.classList.remove('current', 'done');
+        if (i < currentChakraIndex) d.classList.add('done');
+        if (i === currentChakraIndex) d.classList.add('current');
+    });
+    document.getElementById('progressText').textContent =
+        `${CHAKRAS[currentChakraIndex].name} — ${currentChakraIndex + 1} de ${CHAKRAS.length}`;
+    document.getElementById('progressBar').style.width =
+        ((currentChakraIndex + 1) / CHAKRAS.length * 100) + '%';
+}
+
+function canNavigateTo(index) {
+    for (let i = 0; i < index; i++) {
+        const c = CHAKRAS[i];
+        const a = answers[c.id];
+        if (a.blocked.some(v => v === null) || a.excessive.some(v => v === null)) return false;
+    }
+    return true;
+}
+
+function isCurrentPageComplete() {
+    const c = CHAKRAS[currentChakraIndex];
+    const a = answers[c.id];
+    return !a.blocked.some(v => v === null) && !a.excessive.some(v => v === null);
+}
+
+function nextChakra() {
+    if (!isCurrentPageComplete()) {
+        const c = CHAKRAS[currentChakraIndex];
+        const a = answers[c.id];
+        const firstBlank = a.blocked.findIndex(v => v === null);
+        if (firstBlank !== -1) {
+            highlightUnanswered(c.id, 'blocked', firstBlank);
+            return;
+        }
+        const firstBlankEx = a.excessive.findIndex(v => v === null);
+        if (firstBlankEx !== -1) {
+            highlightUnanswered(c.id, 'excessive', firstBlankEx);
+            return;
+        }
+        return;
+    }
+    if (currentChakraIndex < CHAKRAS.length - 1) {
+        showChakraPage(currentChakraIndex + 1);
+    } else {
+        showResults();
+    }
+}
+
+function prevChakra() {
+    if (currentChakraIndex > 0) showChakraPage(currentChakraIndex - 1);
+}
+
+function highlightUnanswered(chakraId, type, index) {
+    const btn = document.querySelector(
+        `[data-chakra="${chakraId}"][data-type="${type}"][data-index="${index}"][data-value="0"]`
+    );
+    if (btn) {
+        const item = btn.closest('.question-item');
+        item.style.borderColor = '#e74c3c';
+        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => { item.style.borderColor = ''; }, 2000);
+    }
+}
+
+function showResults() {
+    showScreen('results');
+    renderResults();
+}
+
+function getStatus(blocked, excessive) {
+    if (blocked >= 12 && excessive >= 12) return 'mixed';
+    if (blocked >= 12) return 'blocked';
+    if (excessive >= 12) return 'excessive';
+    return 'balanced';
+}
+
+function getStatusLabel(status) {
+    const map = { balanced:'Equilibrado', blocked:'Bloqueado', excessive:'Excessivo', mixed:'Misto' };
+    return map[status];
+}
+
+function getStatusClass(status) {
+    const map = { balanced:'status-equilibrado', blocked:'status-bloqueado', excessive:'status-excessivo', mixed:'status-misto' };
+    return map[status];
+}
+
+const LEVELS = [
+    { min:0,  max:24, level:1, name:'Inconsciente',  desc:'O chakra opera no automático, dominado por padrões reativos.',  colorA:'#ef4444', colorB:'#dc2626' },
+    { min:25, max:44, level:2, name:'Desperto',       desc:'Há consciência dos padrões, mas ainda pouca capacidade de mudá-los.', colorA:'#f97316', colorB:'#ea580c' },
+    { min:45, max:64, level:3, name:'Consciente',     desc:'Equilíbrio em desenvolvimento. Age com mais consciência que reação.', colorA:'#eab308', colorB:'#ca8a04' },
+    { min:65, max:84, level:4, name:'Integrado',      desc:'Equilíbrio sólido. O chakra funciona de forma saudável na maioria das situações.', colorA:'#22c55e', colorB:'#16a34a' },
+    { min:85, max:100, level:5, name:'Mestre',        desc:'Domínio pleno. O chakra opera com fluidez, consciência e poder.', colorA:'#a855f7', colorB:'#8b5cf6' },
+];
+
+function getChakraLevel(blocked, excessive) {
+    const totalNeg = blocked + excessive;
+    const pct = Math.round(((40 - totalNeg) / 40) * 100);
+    const lvl = LEVELS.find(l => pct >= l.min && pct <= l.max) || LEVELS[0];
+    return { ...lvl, pct };
+}
+
+function getOverallLevel(scores) {
+    const avgPct = Math.round(scores.reduce((s, sc) => {
+        const neg = sc.blocked + sc.excessive;
+        return s + ((40 - neg) / 40) * 100;
+    }, 0) / scores.length);
+    const lvl = LEVELS.find(l => avgPct >= l.min && avgPct <= l.max) || LEVELS[0];
+    return { ...lvl, pct: avgPct };
+}
+
+function renderResults() {
+    const overview = document.getElementById('resultsOverview');
+    const details = document.getElementById('resultsDetails');
+    overview.innerHTML = '';
+    details.innerHTML = '';
+
+    CHAKRAS.forEach(c => {
+        const a = answers[c.id];
+        const blockedScore = a.blocked.reduce((s,v) => s + v, 0);
+        const excessiveScore = a.excessive.reduce((s,v) => s + v, 0);
+        const status = getStatus(blockedScore, excessiveScore);
+        const interp = c.interpretations[status === 'mixed' ? 'mixed' : status === 'blocked' ? 'blocked' : status === 'excessive' ? 'excessive' : 'balanced'];
+
+        const lvl = getChakraLevel(blockedScore, excessiveScore);
+
+        overview.innerHTML += `
+            <div class="result-mini" style="--chakra-color:${c.color}">
+                <div class="name">${c.name}</div>
+                <span class="status-label ${getStatusClass(status)}">${getStatusLabel(status)}</span>
+            </div>`;
+
+        let detailStars = '';
+        for (let si = 1; si <= 5; si++) {
+            detailStars += si <= lvl.level ? `<span style="color:${c.color}">&#9733;</span>` : '<span style="color:var(--text-muted)">&#9734;</span>';
+        }
+
+        details.innerHTML += `
+            <div class="result-detail" style="--chakra-color:${c.color}">
+                <div class="result-detail-header">
+                    <h3>${c.name}</h3>
+                    <div style="text-align:right">
+                        <span style="font-size:0.9rem;letter-spacing:3px">${detailStars}</span>
+                        <div style="font-size:0.7rem;color:${c.color};font-weight:600;margin-top:0.1rem">Nv.${lvl.level} — ${lvl.name}</div>
+                    </div>
+                </div>
+                <div class="score-bars">
+                    <div class="score-row">
+                        <div class="score-label">
+                            <span class="label-text blocked-label">Bloqueado</span>
+                            <span class="score-value">${blockedScore} / 20</span>
+                        </div>
+                        <div class="score-track"><div class="score-fill blocked-fill" style="width:${blockedScore/20*100}%"></div></div>
+                    </div>
+                    <div class="score-row">
+                        <div class="score-label">
+                            <span class="label-text excessive-label">Excessivo</span>
+                            <span class="score-value">${excessiveScore} / 20</span>
+                        </div>
+                        <div class="score-track"><div class="score-fill excessive-fill" style="width:${excessiveScore/20*100}%"></div></div>
+                    </div>
+                </div>
+                <div class="result-interpretation">
+                    <h4>${interp.title}</h4>
+                    <p>${interp.text}</p>
+                    <p style="margin-top:0.6rem"><strong style="color:var(--accent-gold)">Recomendação:</strong> ${interp.rec}</p>
+                    <span class="phrase">${c.phrase}</span>
+                </div>
+            </div>`;
+    });
+}
+
+function restartQuiz() {
+    showScreen('landing');
+}
+
+function renderPriorityReport() {
+    const container = document.getElementById('priorityReport');
+    const priorities = [];
+
+    CHAKRAS.forEach(c => {
+        const a = answers[c.id];
+        const blockedPriority = [];
+        const excessivePriority = [];
+
+        a.blocked.forEach((v, i) => {
+            if (v === 3) blockedPriority.push(c.blocked[i]);
+        });
+        a.excessive.forEach((v, i) => {
+            if (v === 3) excessivePriority.push(c.excessive[i]);
+        });
+
+        const total = blockedPriority.length + excessivePriority.length;
+        if (total > 0) {
+            priorities.push({ chakra: c, blockedPriority, excessivePriority, total });
+        }
+    });
+
+    if (priorities.length === 0) {
+        container.innerHTML = `
+            <div class="priority-report">
+                <h2 class="priority-report-title">&#9888; Relatório de Prioridades</h2>
+                <p class="priority-report-subtitle">Questões marcadas como nível 3 — prejudicam muito atualmente</p>
+                <div class="priority-empty">Nenhuma questão foi marcada como nível 3. Isso é um ótimo sinal!</div>
+            </div>`;
+        return;
+    }
+
+    priorities.sort((a, b) => b.total - a.total);
+
+    let html = `
+        <div class="priority-report">
+            <h2 class="priority-report-title">&#9888; Relatório de Prioridades</h2>
+            <p class="priority-report-subtitle">Questões marcadas como nível 3 — prejudicam muito atualmente e precisam de atenção prioritária</p>`;
+
+    priorities.forEach(p => {
+        html += `
+            <div class="priority-chakra-block" style="--chakra-block-color:${p.chakra.color}">
+                <div class="priority-chakra-header">
+                    <div class="priority-chakra-name" style="color:${p.chakra.color}">${p.chakra.name}</div>
+                    <span class="priority-count">${p.total} questão${p.total > 1 ? 'ões' : ''} nível 3</span>
+                </div>`;
+
+        if (p.excessivePriority.length > 0) {
+            html += `<div class="priority-type-label excessive-label">Excessivo (${p.excessivePriority.length})</div>`;
+            p.excessivePriority.forEach(q => {
+                html += `<div class="priority-question">${q}</div>`;
+            });
+        }
+
+        if (p.blockedPriority.length > 0) {
+            html += `<div class="priority-type-label blocked-label">Bloqueado (${p.blockedPriority.length})</div>`;
+            p.blockedPriority.forEach(q => {
+                html += `<div class="priority-question">${q}</div>`;
+            });
+        }
+
+        html += `</div>`;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+}
+
+function skipToResults() {
+    const dummyScores = [
+        { blocked:[3,1,2,1,0,1,3,1,1,2], excessive:[1,0,3,1,2,0,1,1,0,1] },
+        { blocked:[0,1,0,1,1,0,0,1,0,1], excessive:[2,1,3,2,1,3,1,2,2,1] },
+        { blocked:[1,3,1,1,2,1,3,1,1,2], excessive:[1,2,1,3,1,2,1,1,2,1] },
+        { blocked:[2,1,0,1,0,1,0,0,1,0], excessive:[0,0,1,0,1,0,0,1,0,0] },
+        { blocked:[1,2,3,1,2,1,1,3,2,1], excessive:[0,1,0,0,1,0,1,0,0,1] },
+        { blocked:[0,0,1,0,1,0,0,1,0,0], excessive:[3,2,1,2,3,1,2,1,2,2] },
+        { blocked:[1,1,2,1,3,1,1,2,1,3], excessive:[1,0,1,1,0,3,0,1,1,0] },
+    ];
+    CHAKRAS.forEach((c, i) => {
+        answers[c.id] = {
+            blocked: dummyScores[i].blocked,
+            excessive: dummyScores[i].excessive
+        };
+    });
+    showResults();
+}
+
+function getScoresArray() {
+    return CHAKRAS.map(c => {
+        const a = answers[c.id];
+        return {
+            name: c.name,
+            color: c.color,
+            blocked: a.blocked.reduce((s,v) => s + Math.min(v, 2), 0),
+            excessive: a.excessive.reduce((s,v) => s + Math.min(v, 2), 0)
+        };
+    });
+}
+
+function drawAllCharts() {
+    const scores = getScoresArray();
+    drawRadarChart(scores);
+    drawBarChart(scores);
+    drawTotalChart(scores);
+}
+
+function drawRadarChart(scores) {
+    const canvas = document.getElementById('chartRadar');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2;
+    const maxVal = 20;
+    const radius = Math.min(cx, cy) - 60;
+    const n = scores.length;
+
+    ctx.clearRect(0, 0, W, H);
+
+    for (let ring = 1; ring <= 4; ring++) {
+        const r = radius * (ring / 4);
+        ctx.beginPath();
+        for (let i = 0; i <= n; i++) {
+            const angle = (Math.PI * 2 * (i % n)) / n - Math.PI / 2;
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    for (let i = 0; i < n; i++) {
+        const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+        const x = cx + radius * Math.cos(angle);
+        const y = cy + radius * Math.sin(angle);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    function drawPolygon(values, fillColor, strokeColor) {
+        ctx.beginPath();
+        values.forEach((val, i) => {
+            const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+            const r = radius * (val / maxVal);
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        });
+        ctx.closePath();
+        ctx.fillStyle = fillColor;
+        ctx.fill();
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+
+    drawPolygon(scores.map(s => s.blocked), 'rgba(96,165,250,0.15)', 'rgba(96,165,250,0.7)');
+    drawPolygon(scores.map(s => s.excessive), 'rgba(248,113,113,0.15)', 'rgba(248,113,113,0.7)');
+
+    scores.forEach((s, i) => {
+        const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+        const labelR = radius + 28;
+        const x = cx + labelR * Math.cos(angle);
+        const y = cy + labelR * Math.sin(angle);
+        ctx.fillStyle = s.color;
+        ctx.font = '600 13px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(s.name, x, y);
+    });
+
+    scores.forEach((s, i) => {
+        const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+        ['blocked', 'excessive'].forEach((type) => {
+            const val = s[type];
+            const r = radius * (val / maxVal);
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = type === 'blocked' ? '#60a5fa' : '#f87171';
+            ctx.fill();
+        });
+    });
+}
+
+function drawBarChart(scores) {
+    const canvas = document.getElementById('chartBars');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const marginLeft = 90, marginRight = 30, marginTop = 20, marginBottom = 30;
+    const chartW = W - marginLeft - marginRight;
+    const chartH = H - marginTop - marginBottom;
+    const barGroupH = chartH / scores.length;
+    const barH = barGroupH * 0.28;
+    const gap = barGroupH * 0.08;
+    const maxVal = 20;
+
+    for (let tick = 0; tick <= 20; tick += 5) {
+        const x = marginLeft + (tick / maxVal) * chartW;
+        ctx.beginPath();
+        ctx.moveTo(x, marginTop);
+        ctx.lineTo(x, H - marginBottom);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(tick, x, H - marginBottom + 16);
+    }
+
+    scores.forEach((s, i) => {
+        const groupY = marginTop + i * barGroupH;
+        const centerY = groupY + barGroupH / 2;
+
+        ctx.fillStyle = s.color;
+        ctx.font = '600 12px Inter, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(s.name, marginLeft - 10, centerY);
+
+        const bY = centerY - barH - gap / 2;
+        const bW = (s.blocked / maxVal) * chartW;
+        const grad1 = ctx.createLinearGradient(marginLeft, 0, marginLeft + bW, 0);
+        grad1.addColorStop(0, 'rgba(59,130,246,0.8)');
+        grad1.addColorStop(1, 'rgba(96,165,250,0.9)');
+        ctx.fillStyle = grad1;
+        roundRect(ctx, marginLeft, bY, bW, barH, 4);
+        ctx.fill();
+        if (s.blocked > 0) {
+            ctx.fillStyle = '#fff';
+            ctx.font = '600 10px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(s.blocked, marginLeft + bW + 6, bY + barH / 2);
+        }
+
+        const eY = centerY + gap / 2;
+        const eW = (s.excessive / maxVal) * chartW;
+        const grad2 = ctx.createLinearGradient(marginLeft, 0, marginLeft + eW, 0);
+        grad2.addColorStop(0, 'rgba(239,68,68,0.8)');
+        grad2.addColorStop(1, 'rgba(248,113,113,0.9)');
+        ctx.fillStyle = grad2;
+        roundRect(ctx, marginLeft, eY, eW, barH, 4);
+        ctx.fill();
+        if (s.excessive > 0) {
+            ctx.fillStyle = '#fff';
+            ctx.font = '600 10px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(s.excessive, marginLeft + eW + 6, eY + barH / 2);
+        }
+    });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    if (w < 1) w = 1;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+}
+
+function drawTotalChart(scores) {
+    const canvas = document.getElementById('chartTotal');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const mL = 100, mR = 70, mT = 25, mB = 30;
+    const chartW = W - mL - mR;
+    const chartH = H - mT - mB;
+    const n = scores.length;
+    const rowH = chartH / n;
+    const barH = rowH * 0.5;
+    const maxVal = 40;
+
+    for (let tick = 0; tick <= 40; tick += 10) {
+        const x = mL + (tick / maxVal) * chartW;
+        ctx.beginPath();
+        ctx.moveTo(x, mT);
+        ctx.lineTo(x, H - mB);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(tick, x, H - mB + 16);
+    }
+
+    scores.forEach((s, i) => {
+        const y = mT + i * rowH + (rowH - barH) / 2;
+        const centerY = y + barH / 2;
+
+        const totalNeg = s.blocked + s.excessive;
+        const totalPos = maxVal - totalNeg;
+        const pct = Math.round((totalPos / maxVal) * 100);
+
+        ctx.fillStyle = s.color;
+        ctx.font = '600 13px Inter, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(s.name, mL - 12, centerY);
+
+        const negW = (totalNeg / maxVal) * chartW;
+        const posW = (totalPos / maxVal) * chartW;
+
+        const gradNeg = ctx.createLinearGradient(mL, 0, mL + negW, 0);
+        gradNeg.addColorStop(0, 'rgba(239,68,68,0.7)');
+        gradNeg.addColorStop(1, 'rgba(239,68,68,0.35)');
+        ctx.fillStyle = gradNeg;
+        roundRect(ctx, mL, y, negW, barH, 0);
+        ctx.fill();
+
+        const gradPos = ctx.createLinearGradient(mL + negW, 0, mL + negW + posW, 0);
+        gradPos.addColorStop(0, 'rgba(46,204,113,0.4)');
+        gradPos.addColorStop(1, 'rgba(46,204,113,0.8)');
+        ctx.fillStyle = gradPos;
+        roundRect(ctx, mL + negW, y, posW, barH, 0);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        roundRect(ctx, mL, y, chartW, barH, 0);
+        ctx.stroke();
+
+        if (negW > 30) {
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            ctx.font = '600 11px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(totalNeg, mL + negW / 2, centerY);
+        }
+        if (posW > 30) {
+            ctx.fillStyle = 'rgba(255,255,255,0.9)';
+            ctx.font = '600 11px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(totalPos, mL + negW + posW / 2, centerY);
+        }
+
+        const pctColor = pct >= 70 ? '#2ecc71' : pct >= 40 ? '#f1c40f' : '#ef4444';
+        ctx.fillStyle = pctColor;
+        ctx.font = '700 14px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(pct + '%', mL + chartW + 10, centerY);
+    });
+}
+
+const origRenderResults = renderResults;
+renderResults = function() {
+    origRenderResults();
+    const scores = getScoresArray();
+    renderLevelHudV2(scores);
+    renderPriorityReport();
+    setTimeout(drawAllCharts, 100);
+};
+
+function renderLevelHudV2(scores) {
+    const hud = document.getElementById('levelHud');
+    const overall = getOverallLevel(scores);
+    const nextLevel = LEVELS.find(l => l.level === overall.level + 1);
+    const currentLevelDef = LEVELS.find(l => l.level === overall.level);
+    const progressInLevel = nextLevel
+        ? Math.round(((overall.pct - currentLevelDef.min) / (nextLevel.min - currentLevelDef.min)) * 100)
+        : 100;
+
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+        starsHtml += i <= overall.level
+            ? '<span style="color:var(--accent-gold)">&#9733;</span>'
+            : '<span style="color:var(--text-muted)">&#9734;</span>';
+    }
+
+    let cellsHtml = '';
+    scores.forEach((s, i) => {
+        const chakra = CHAKRAS[i];
+        const lv = getChakraLevel(s.blocked, s.excessive);
+        cellsHtml += `
+            <div class="v2-chakra-cell" style="--cell-color:${chakra.color}">
+                <div class="v2-cell-name">${chakra.name}</div>
+                <div class="v2-cell-level" style="color:${chakra.color}">${lv.level}</div>
+                <div class="v2-cell-rank">${lv.name}</div>
+                <div class="v2-cell-bar-track">
+                    <div class="v2-cell-bar-fill" style="width:${lv.pct}%"></div>
+                </div>
+                <div class="v2-cell-pct" style="color:${lv.pct >= 65 ? '#2ecc71' : lv.pct >= 40 ? '#eab308' : '#ef4444'}">${lv.pct}%</div>
+            </div>`;
+    });
+
+    const tagColor = overall.colorA;
+    const tagBg = overall.colorA + '20';
+
+    hud.innerHTML = `
+        <div class="v2-card" style="margin-top:1rem">
+            <div style="text-align:center;padding:0.6rem;font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border-subtle);background:rgba(255,255,255,0.01)">Versão 2 — Player Card</div>
+            <div class="v2-header">
+                <div class="v2-avatar">
+                    <canvas id="v2Ring" width="200" height="200"></canvas>
+                    <div class="v2-avatar-center">
+                        <span class="v2-lvl" style="color:${overall.colorA}">${overall.level}</span>
+                        <span class="v2-of">/ 5</span>
+                    </div>
+                </div>
+                <div class="v2-info">
+                    <span class="v2-tag" style="color:${tagColor};background:${tagBg};border:1px solid ${tagColor}44">${overall.name}</span>
+                    <div class="v2-rank-name">Nível ${overall.level} — ${overall.name}</div>
+                    <div class="v2-desc-text">${overall.desc}</div>
+                    <div class="v2-stars">${starsHtml}</div>
+                    <div class="v2-xp-row">
+                        <span class="v2-xp-label">Progresso</span>
+                        <div class="v2-xp-track"><div class="v2-xp-fill" id="v2XpFill" style="width:0%"></div></div>
+                        <span class="v2-pct" style="color:${overall.colorA}">${overall.pct}%</span>
+                    </div>
+                    ${nextLevel ? `<div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.3rem">Próximo nível: ${nextLevel.name} (${nextLevel.min}%)</div>` : '<div style="font-size:0.65rem;color:#a855f7;margin-top:0.3rem">Nível máximo alcançado!</div>'}
+                </div>
+                <div class="v2-stat-number">
+                    <div class="big-pct" style="color:${overall.colorA}">${overall.pct}<span style="font-size:1.2rem">%</span></div>
+                    <div class="pct-label">equilíbrio</div>
+                </div>
+            </div>
+            <div class="v2-chakra-row">${cellsHtml}</div>
+        </div>`;
+
+    setTimeout(() => {
+        const fill = document.getElementById('v2XpFill');
+        if (fill) fill.style.width = progressInLevel + '%';
+        drawV2Ring(overall);
+    }, 150);
+}
+
+function drawV2Ring(overall) {
+    const canvas = document.getElementById('v2Ring');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2;
+    const r = (Math.min(W, H) / 2) - 14;
+    const lineW = 8;
+
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = lineW;
+    ctx.stroke();
+
+    const startAngle = -Math.PI / 2;
+    const pctNorm = overall.pct / 100;
+    const endAngle = startAngle + (Math.PI * 2 * pctNorm);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, startAngle, endAngle);
+    ctx.strokeStyle = overall.colorA;
+    ctx.lineWidth = lineW;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    ctx.shadowColor = overall.colorA;
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(
+        cx + r * Math.cos(endAngle),
+        cy + r * Math.sin(endAngle),
+        lineW / 2, 0, Math.PI * 2
+    );
+    ctx.fillStyle = overall.colorA;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    const colors = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3498db','#6c5ce7','#a855f7'];
+    colors.forEach((col, i) => {
+        const angle = startAngle + (Math.PI * 2 * ((i + 1) / 7));
+        const x = cx + (r - lineW - 6) * Math.cos(angle);
+        const y = cy + (r - lineW - 6) * Math.sin(angle);
+        ctx.beginPath();
+        ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = col + '55';
+        ctx.fill();
+    });
+}
+
+async function exportPDF() {
+    const btn = document.querySelector('.btn-export');
+    btn.disabled = true;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pdf-overlay';
+    overlay.innerHTML = '<div class="spinner"></div><p>Gerando seu PDF...</p>';
+    document.body.appendChild(overlay);
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const margin = 10;
+        const usableW = pageW - margin * 2;
+
+        const sections = [
+            document.getElementById('levelHud'),
+            document.querySelector('.results-overview'),
+            ...document.querySelectorAll('.chart-card'),
+            document.getElementById('priorityReport'),
+            document.getElementById('resultsDetails')
+        ].filter(el => el && el.innerHTML.trim() !== '');
+
+        let currentY = margin;
+        let isFirstPage = true;
+
+        for (const section of sections) {
+            const canvas = await html2canvas(section, {
+                backgroundColor: '#0a0a0f',
+                scale: 2,
+                useCORS: true,
+                logging: false
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+            const ratio = canvas.width / canvas.height;
+            const imgW = usableW;
+            const imgH = imgW / ratio;
+
+            if (imgH > pageH - margin * 2) {
+                let srcY = 0;
+                const sliceHeightMm = pageH - margin * 2;
+                const sliceHeightPx = (sliceHeightMm / imgH) * canvas.height;
+
+                while (srcY < canvas.height) {
+                    if (!isFirstPage || srcY > 0) pdf.addPage();
+                    isFirstPage = false;
+
+                    const remainPx = Math.min(sliceHeightPx, canvas.height - srcY);
+                    const sliceCanvas = document.createElement('canvas');
+                    sliceCanvas.width = canvas.width;
+                    sliceCanvas.height = remainPx;
+                    const sCtx = sliceCanvas.getContext('2d');
+                    sCtx.drawImage(canvas, 0, srcY, canvas.width, remainPx, 0, 0, canvas.width, remainPx);
+
+                    const sliceData = sliceCanvas.toDataURL('image/png');
+                    const sliceH = (remainPx / canvas.height) * imgH;
+                    pdf.addImage(sliceData, 'PNG', margin, margin, imgW, sliceH);
+
+                    srcY += sliceHeightPx;
+                }
+                currentY = margin;
+                continue;
+            }
+
+            if (currentY + imgH > pageH - margin) {
+                pdf.addPage();
+                isFirstPage = false;
+                currentY = margin;
+            }
+
+            if (!isFirstPage && currentY === margin) {
+            } else if (isFirstPage) {
+                isFirstPage = false;
+            }
+
+            pdf.addImage(imgData, 'PNG', margin, currentY, imgW, imgH);
+            currentY += imgH + 4;
+        }
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('pt-BR').replace(/\//g, '-');
+        pdf.save(`Diagnostico-Chakras_${dateStr}.pdf`);
+
+    } catch (err) {
+        console.error('Erro ao gerar PDF:', err);
+        alert('Erro ao gerar o PDF. Tente novamente.');
+    } finally {
+        overlay.remove();
+        btn.disabled = false;
+    }
+}
+</script>
+</body>
+</html>
