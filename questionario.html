@@ -406,6 +406,59 @@ body {
     border:1px dashed var(--border-subtle);
 }
 
+/* ===== ANSWERS BREAKDOWN ===== */
+.answers-breakdown { margin-top:3rem; margin-bottom:2rem; }
+.answers-breakdown-title {
+    font-family:var(--font-heading); font-size:1.5rem; font-weight:700;
+    color:var(--text-primary); margin-bottom:0.3rem;
+}
+.answers-breakdown-subtitle {
+    color:var(--text-secondary); font-size:0.95rem; margin-bottom:1.8rem;
+}
+.ab-chakra-block {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; overflow:hidden; margin-bottom:1.2rem;
+}
+.ab-chakra-header {
+    padding:0.8rem 1.2rem; display:flex; justify-content:space-between; align-items:center;
+}
+.ab-chakra-name {
+    font-family:var(--font-heading); font-size:1.1rem; font-weight:700; color:#fff;
+}
+.ab-chakra-scores {
+    font-size:0.8rem; font-weight:500; color:rgba(255,255,255,0.8);
+}
+.ab-type-header {
+    padding:0.4rem 1.2rem; font-size:0.7rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.1em;
+    border-top:1px solid var(--border-subtle);
+    display:flex; justify-content:space-between;
+}
+.ab-type-header.blocked { color:#60a5fa; background:rgba(96,165,250,0.05); }
+.ab-type-header.excessive { color:#f87171; background:rgba(248,113,113,0.05); }
+.ab-row {
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding:0.45rem 1.2rem; font-size:0.85rem; gap:1rem;
+    border-top:1px solid rgba(255,255,255,0.03);
+}
+.ab-row:nth-child(even) { background:rgba(255,255,255,0.015); }
+.ab-question { flex:1; color:var(--text-secondary); line-height:1.4; }
+.ab-question .ab-num { color:var(--text-muted); margin-right:0.3rem; font-size:0.75rem; }
+.ab-answer {
+    flex-shrink:0; font-weight:600; font-size:0.8rem;
+    padding:0.15rem 0.6rem; border-radius:6px; white-space:nowrap;
+    text-align:center; min-width:90px;
+}
+.ab-answer[data-val="0"] { color:var(--text-muted); background:rgba(255,255,255,0.03); }
+.ab-answer[data-val="1"] { color:#f1c40f; background:rgba(241,196,15,0.08); }
+.ab-answer[data-val="2"] { color:#e67e22; background:rgba(230,126,34,0.1); }
+.ab-answer[data-val="3"] { color:#ef4444; background:rgba(239,68,68,0.12); font-weight:700; }
+
+@media(max-width:600px) {
+    .ab-row { flex-direction:column; gap:0.3rem; }
+    .ab-answer { align-self:flex-end; }
+}
+
 /* ===== EXPLANATION SCREEN ===== */
 .explain-hero {
     padding:5rem 0 3rem; text-align:center;
@@ -896,6 +949,9 @@ body {
         <div id="priorityReport"></div>
 
         <div id="resultsDetails"></div>
+
+        <div id="answersBreakdown"></div>
+
         <div class="results-footer">
             <button class="btn-export" onclick="exportPDF()">&#128196; Exportar PDF</button>
             <button class="btn-restart" onclick="restartQuiz()">&#x21bb; Refazer Diagnóstico</button>
@@ -1821,6 +1877,7 @@ renderResults = function() {
     const scores = getScoresArray();
     renderLevelHudV2(scores);
     renderPriorityReport();
+    renderAnswersBreakdown();
     setTimeout(drawAllCharts, 100);
 };
 
@@ -1947,6 +2004,52 @@ function drawV2Ring(overall) {
         ctx.fillStyle = col + '55';
         ctx.fill();
     });
+}
+
+function renderAnswersBreakdown() {
+    const container = document.getElementById('answersBreakdown');
+    const labelMap = { 0:'Não me identifico', 1:'Às vezes', 2:'Me identifico muito', 3:'Me prejudica muito' };
+
+    let html = `
+        <div class="answers-breakdown">
+            <h2 class="answers-breakdown-title">Gabarito Completo</h2>
+            <p class="answers-breakdown-subtitle">Todas as perguntas com suas respostas — use para comparar sua evolução ao longo do tempo.</p>`;
+
+    CHAKRAS.forEach(c => {
+        const a = answers[c.id];
+        const bScore = a.blocked.reduce((s,v) => s + Math.min(v, 2), 0);
+        const eScore = a.excessive.reduce((s,v) => s + Math.min(v, 2), 0);
+
+        html += `<div class="ab-chakra-block">
+            <div class="ab-chakra-header" style="background:${c.color}22">
+                <div class="ab-chakra-name" style="color:${c.color}">${c.name}</div>
+                <div class="ab-chakra-scores">Bloq: ${bScore}/20 &nbsp; Exc: ${eScore}/20</div>
+            </div>
+            <div class="ab-type-header blocked"><span>Bloqueado</span><span>Resposta</span></div>`;
+
+        c.blocked.forEach((q, i) => {
+            const v = a.blocked[i];
+            html += `<div class="ab-row">
+                <div class="ab-question"><span class="ab-num">${i+1}.</span>${q}</div>
+                <div class="ab-answer" data-val="${v}">${v} — ${labelMap[v]}</div>
+            </div>`;
+        });
+
+        html += `<div class="ab-type-header excessive"><span>Excessivo</span><span>Resposta</span></div>`;
+
+        c.excessive.forEach((q, i) => {
+            const v = a.excessive[i];
+            html += `<div class="ab-row">
+                <div class="ab-question"><span class="ab-num">${i+1}.</span>${q}</div>
+                <div class="ab-answer" data-val="${v}">${v} — ${labelMap[v]}</div>
+            </div>`;
+        });
+
+        html += `</div>`;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
 }
 
 function hexToRgb(hex) {
