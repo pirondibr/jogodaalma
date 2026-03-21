@@ -983,7 +983,6 @@ body {
             </div>
         </div>
 
-        <div id="profileDetails"></div>
         <div id="priorityReport"></div>
         <div id="answersBreakdown"></div>
         <div class="results-footer">
@@ -1398,11 +1397,9 @@ function renderResults() {
     const overallEl = document.getElementById('overallLevel');
     const overviewV2 = document.getElementById('profileOverviewV2');
     const overview = document.getElementById('profileOverview');
-    const details = document.getElementById('profileDetails');
     overallEl.innerHTML = '';
     overviewV2.innerHTML = '';
     overview.innerHTML = '';
-    details.innerHTML = '';
 
     const scores = getScoresArray();
 
@@ -1512,75 +1509,6 @@ function renderResults() {
     overviewHtml += '</div>';
     overview.innerHTML = overviewHtml;
 
-    // === Detail cards: separate independent bars ===
-    const CATS = [
-        { key:'interno', label:'Interno (Ser)', icon:'🧠' },
-        { key:'acoes', label:'Ações (Fazer)', icon:'⚡' },
-        { key:'resultados', label:'Resultados (Ter)', icon:'🎯' }
-    ];
-
-    let detailsHtml = '';
-    CHAKRAS.forEach((c, i) => {
-        const s = scores[i];
-        detailsHtml += `<div class="profile-detail" style="--chakra-color:${c.color}"><h3>${c.name}</h3>`;
-
-        CATS.forEach(cat => {
-            const v1 = s[cat.key].v1;
-            const v2 = s[cat.key].v2;
-            const v1P = pct(v1, 2);
-            const v2P = pct(v2, 2);
-
-            detailsHtml += `
-                <div class="profile-cat-row">
-                    <div class="profile-cat-label">${cat.icon} ${cat.label}</div>
-                    <div class="profile-cat-items">
-                        <div class="profile-cat-item">
-                            <span class="v-label v1">1.0</span>
-                            <span class="v-text">${c.items[cat.key].v1}</span>
-                            <span class="v-score v1">${v1}/2</span>
-                        </div>
-                        <div class="profile-cat-item">
-                            <span class="v-label v2">2.0</span>
-                            <span class="v-text">${c.items[cat.key].v2}</span>
-                            <span class="v-score v2">${v2}/2</span>
-                        </div>
-                    </div>
-                    <div class="detail-bars">
-                        <div class="detail-bar-row">
-                            <span class="detail-bar-tag v1">1.0</span>
-                            <div class="detail-bar-track"><div class="detail-bar-fill v1" style="width:${v1P}%"></div></div>
-                            <span class="detail-bar-pct v1">${v1P}%</span>
-                        </div>
-                        <div class="detail-bar-row">
-                            <span class="detail-bar-tag v2">2.0</span>
-                            <div class="detail-bar-track"><div class="detail-bar-fill v2" style="width:${v2P}%"></div></div>
-                            <span class="detail-bar-pct v2">${v2P}%</span>
-                        </div>
-                    </div>
-                </div>`;
-        });
-
-        const v1TotalP = pct(s.totalV1, 6);
-        const v2TotalP = pct(s.totalV2, 6);
-        detailsHtml += `
-            <div class="profile-total-row">
-                <span style="font-weight:600;color:var(--text-primary);margin-bottom:0.4rem;display:block">Total</span>
-                <div class="profile-total-bars">
-                    <div class="profile-total-bar-row">
-                        <span class="profile-total-tag v1">1.0</span>
-                        <div class="profile-total-track"><div class="profile-total-fill v1" style="width:${v1TotalP}%"></div></div>
-                        <span class="profile-total-pct v1">${v1TotalP}% (${s.totalV1}/6)</span>
-                    </div>
-                    <div class="profile-total-bar-row">
-                        <span class="profile-total-tag v2">2.0</span>
-                        <div class="profile-total-track"><div class="profile-total-fill v2" style="width:${v2TotalP}%"></div></div>
-                        <span class="profile-total-pct v2">${v2TotalP}% (${s.totalV2}/6)</span>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-    });
-    details.innerHTML = detailsHtml;
 }
 
 function renderPriorityReport() {
@@ -2011,7 +1939,6 @@ async function exportPDF() {
             document.getElementById('profileOverviewV2'),
             document.getElementById('profileOverview'),
             ...document.querySelectorAll('.chart-card'),
-            document.getElementById('profileDetails'),
             document.getElementById('priorityReport')
         ].filter(el => el && el.innerHTML.trim() !== '');
 
