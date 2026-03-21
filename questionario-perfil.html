@@ -230,6 +230,7 @@ body {
 .scale-legend-item:nth-child(1) .scale-legend-num { color:var(--text-muted); }
 .scale-legend-item:nth-child(2) .scale-legend-num { color:#f1c40f; border-color:rgba(241,196,15,0.3); }
 .scale-legend-item:nth-child(3) .scale-legend-num { color:#2ecc71; border-color:rgba(46,204,113,0.3); }
+.scale-legend-item:nth-child(4) .scale-legend-num { color:#ef4444; border-color:rgba(239,68,68,0.3); }
 
 .rating-buttons { display:flex; gap:0.4rem; flex-shrink:0; }
 .rating-btn {
@@ -240,6 +241,9 @@ body {
 }
 .rating-btn:hover { border-color:var(--accent-purple); color:var(--text-primary); }
 .rating-btn.selected { border-color:var(--accent-gold); background:rgba(212,168,67,0.15); color:var(--accent-gold); }
+.rating-btn-priority { border-color:rgba(239,68,68,0.3) !important; color:rgba(239,68,68,0.6) !important; font-size:0.85rem !important; }
+.rating-btn-priority:hover { border-color:#ef4444 !important; color:#ef4444 !important; }
+.rating-btn-priority.selected { border-color:#ef4444 !important; background:rgba(239,68,68,0.15) !important; color:#ef4444 !important; }
 
 .quiz-nav {
     display:flex; justify-content:space-between; align-items:center;
@@ -430,6 +434,53 @@ body {
 .chart-legend span { display:flex; align-items:center; gap:0.4rem; }
 .legend-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
 
+/* ===== PRIORITY REPORT ===== */
+.priority-report { margin-top:3rem; margin-bottom:2rem; }
+.priority-report-title {
+    font-family:var(--font-heading); font-size:1.5rem; font-weight:700;
+    color:#ef4444; margin-bottom:0.3rem;
+}
+.priority-report-subtitle {
+    color:var(--text-secondary); font-size:0.95rem; margin-bottom:1.8rem;
+}
+.priority-chakra-block {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:1.5rem; margin-bottom:1rem;
+    border-left:4px solid var(--chakra-block-color, #ef4444);
+}
+.priority-chakra-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:1rem;
+}
+.priority-chakra-name {
+    font-family:var(--font-heading); font-size:1.2rem; font-weight:700;
+}
+.priority-count {
+    font-size:0.8rem; font-weight:600; padding:0.2rem 0.7rem;
+    border-radius:100px; background:rgba(239,68,68,0.12); color:#ef4444;
+}
+.priority-dimension-label {
+    font-size:0.65rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--text-muted); margin-top:0.6rem; margin-bottom:0.3rem;
+}
+.priority-question {
+    padding:0.5rem 0.8rem; margin-bottom:0.3rem;
+    background:rgba(255,255,255,0.02); border-radius:8px;
+    font-size:0.9rem; color:var(--text-secondary);
+    border-left:3px solid rgba(239,68,68,0.3);
+}
+.priority-question .pq-tag {
+    font-size:0.65rem; font-weight:700; padding:0.1rem 0.4rem;
+    border-radius:4px; margin-right:0.4rem;
+}
+.priority-question .pq-tag.v1 { background:rgba(239,68,68,0.12); color:#ef4444; }
+.priority-question .pq-tag.v2 { background:rgba(59,130,246,0.12); color:#60a5fa; }
+.priority-empty {
+    text-align:center; padding:2rem; color:var(--text-muted);
+    font-size:0.95rem; background:var(--bg-card); border-radius:16px;
+    border:1px dashed var(--border-subtle);
+}
+
 /* ===== ANSWERS BREAKDOWN ===== */
 .answers-breakdown { margin-top:3rem; margin-bottom:2rem; }
 .answers-breakdown-title {
@@ -470,6 +521,7 @@ body {
 .ab-answer[data-val="0"] { color:var(--text-muted); background:rgba(255,255,255,0.03); }
 .ab-answer[data-val="1"] { color:#f1c40f; background:rgba(241,196,15,0.08); }
 .ab-answer[data-val="2"] { color:#2ecc71; background:rgba(46,204,113,0.1); }
+.ab-answer[data-val="3"] { color:#ef4444; background:rgba(239,68,68,0.1); font-weight:700; }
 
 /* ===== EXPLANATION SCREEN ===== */
 .explain-hero {
@@ -671,10 +723,15 @@ body {
                     <div class="scale-label">Me identifico muito</div>
                     <div class="scale-desc">Esse padrão é muito presente na minha vida. Me reconheço fortemente.</div>
                 </div>
+                <div class="scale-card" style="border-color:rgba(239,68,68,0.2);">
+                    <div class="scale-number" style="color:#ef4444;">3</div>
+                    <div class="scale-label">Grande impacto na minha vida</div>
+                    <div class="scale-desc">Me identifico muito E isso tem grande impacto na minha vida atualmente — é algo que preciso resolver com prioridade.</div>
+                </div>
             </div>
 
             <div class="explain-note">
-                <p>Para cada chakra você verá 6 descrições: a versão 1.0 (negativa) e 2.0 (positiva) do seu interno, ações e resultados. Responda com honestidade — o objetivo é autoconhecimento, não julgamento.</p>
+                <p>Para cada chakra você verá 6 descrições: a versão 1.0 (negativa) e 2.0 (positiva) do seu interno, ações e resultados. Responda com honestidade — o objetivo é autoconhecimento, não julgamento. O nível 3 gera um relatório separado de prioridades.</p>
             </div>
 
             <div class="explain-cta">
@@ -732,6 +789,7 @@ body {
         </div>
 
         <div id="profileDetails"></div>
+        <div id="priorityReport"></div>
         <div id="answersBreakdown"></div>
         <div class="results-footer">
             <button class="btn-export" onclick="exportPDF()">&#128196; Exportar PDF</button>
@@ -945,6 +1003,7 @@ function buildQuiz() {
                 <div class="scale-legend-item"><span class="scale-legend-num">0</span> Não me identifico</div>
                 <div class="scale-legend-item"><span class="scale-legend-num">1</span> Parcialmente</div>
                 <div class="scale-legend-item"><span class="scale-legend-num">2</span> Me identifico muito</div>
+                <div class="scale-legend-item"><span class="scale-legend-num">3</span> Grande impacto</div>
             </div>
         `;
 
@@ -958,8 +1017,8 @@ function buildQuiz() {
                             <span class="version-tag v1">Versão 1.0</span>
                             <div class="version-desc">"${item.v1}"</div>
                             <div class="rating-buttons">
-                                ${[0,1,2].map(v =>
-                                    `<button class="rating-btn" onclick="setAnswer(this,'${c.id}','${cat.key}','v1',${v})">${v}</button>`
+                                ${[0,1,2,3].map(v =>
+                                    `<button class="rating-btn${v===3?' rating-btn-priority':''}" onclick="setAnswer(this,'${c.id}','${cat.key}','v1',${v})">${v}</button>`
                                 ).join('')}
                             </div>
                         </div>
@@ -967,8 +1026,8 @@ function buildQuiz() {
                             <span class="version-tag v2">Versão 2.0</span>
                             <div class="version-desc">"${item.v2}"</div>
                             <div class="rating-buttons">
-                                ${[0,1,2].map(v =>
-                                    `<button class="rating-btn" onclick="setAnswer(this,'${c.id}','${cat.key}','v2',${v})">${v}</button>`
+                                ${[0,1,2,3].map(v =>
+                                    `<button class="rating-btn${v===3?' rating-btn-priority':''}" onclick="setAnswer(this,'${c.id}','${cat.key}','v2',${v})">${v}</button>`
                                 ).join('')}
                             </div>
                         </div>
@@ -1085,20 +1144,24 @@ function prevChakra() {
 function showResults() {
     showScreen('results');
     renderResults();
+    renderPriorityReport();
     renderAnswersBreakdown();
     setTimeout(drawAllCharts, 100);
 }
 
 function skipToResults() {
-    CHAKRAS.forEach(c => {
+    CHAKRAS.forEach((c, i) => {
+        const rv = () => { const r = Math.random(); return r < 0.15 ? 3 : Math.floor(r * 3); };
         answers[c.id] = {
-            interno: { v1: Math.floor(Math.random()*3), v2: Math.floor(Math.random()*3) },
-            acoes: { v1: Math.floor(Math.random()*3), v2: Math.floor(Math.random()*3) },
-            resultados: { v1: Math.floor(Math.random()*3), v2: Math.floor(Math.random()*3) }
+            interno: { v1: rv(), v2: rv() },
+            acoes: { v1: rv(), v2: rv() },
+            resultados: { v1: rv(), v2: rv() }
         };
     });
     showResults();
 }
+
+function cap(v) { return Math.min(v, 2); }
 
 function getScoresArray() {
     return CHAKRAS.map(c => {
@@ -1106,11 +1169,11 @@ function getScoresArray() {
         return {
             name: c.name,
             color: c.color,
-            interno: { v1: a.interno.v1, v2: a.interno.v2 },
-            acoes: { v1: a.acoes.v1, v2: a.acoes.v2 },
-            resultados: { v1: a.resultados.v1, v2: a.resultados.v2 },
-            totalV1: a.interno.v1 + a.acoes.v1 + a.resultados.v1,
-            totalV2: a.interno.v2 + a.acoes.v2 + a.resultados.v2
+            interno: { v1: cap(a.interno.v1), v2: cap(a.interno.v2) },
+            acoes: { v1: cap(a.acoes.v1), v2: cap(a.acoes.v2) },
+            resultados: { v1: cap(a.resultados.v1), v2: cap(a.resultados.v2) },
+            totalV1: cap(a.interno.v1) + cap(a.acoes.v1) + cap(a.resultados.v1),
+            totalV2: cap(a.interno.v2) + cap(a.acoes.v2) + cap(a.resultados.v2)
         };
     });
 }
@@ -1197,9 +1260,59 @@ function renderResults() {
     details.innerHTML = detailsHtml;
 }
 
+function renderPriorityReport() {
+    const container = document.getElementById('priorityReport');
+    const CATS = [
+        { key:'interno', label:'Interno (Ser)' },
+        { key:'acoes', label:'Ações (Fazer)' },
+        { key:'resultados', label:'Resultados (Ter)' }
+    ];
+
+    const priorities = [];
+    CHAKRAS.forEach(c => {
+        const a = answers[c.id];
+        const items = [];
+        CATS.forEach(cat => {
+            if (a[cat.key].v1 === 3) items.push({ version:'1.0', vClass:'v1', cat: cat.label, text: c.items[cat.key].v1 });
+            if (a[cat.key].v2 === 3) items.push({ version:'2.0', vClass:'v2', cat: cat.label, text: c.items[cat.key].v2 });
+        });
+        if (items.length > 0) priorities.push({ chakra: c, items });
+    });
+
+    if (priorities.length === 0) {
+        container.innerHTML = `
+            <div class="priority-report">
+                <h2 class="priority-report-title">&#9888; Relatório de Prioridades</h2>
+                <p class="priority-report-subtitle">Itens marcados como nível 3 — grande impacto na vida atualmente</p>
+                <div class="priority-empty">Nenhum item foi marcado como nível 3. Isso é um ótimo sinal!</div>
+            </div>`;
+        return;
+    }
+
+    let html = `
+        <div class="priority-report">
+            <h2 class="priority-report-title">&#9888; Relatório de Prioridades</h2>
+            <p class="priority-report-subtitle">Itens marcados como nível 3 — grande impacto na vida e precisam de atenção prioritária</p>`;
+
+    priorities.forEach(p => {
+        html += `<div class="priority-chakra-block" style="--chakra-block-color:${p.chakra.color}">
+            <div class="priority-chakra-header">
+                <span class="priority-chakra-name" style="color:${p.chakra.color}">${p.chakra.name}</span>
+                <span class="priority-count">${p.items.length} prioridade${p.items.length>1?'s':''}</span>
+            </div>`;
+        p.items.forEach(it => {
+            html += `<div class="priority-question"><span class="pq-tag ${it.vClass}">${it.version}</span>${it.cat}: ${it.text}</div>`;
+        });
+        html += '</div>';
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
 function renderAnswersBreakdown() {
     const container = document.getElementById('answersBreakdown');
-    const labelMap = { 0:'Não me identifico', 1:'Parcialmente', 2:'Me identifico muito' };
+    const labelMap = { 0:'Não me identifico', 1:'Parcialmente', 2:'Me identifico muito', 3:'Grande impacto ⚠' };
     const CATS = [
         { key:'interno', label:'Interno' },
         { key:'acoes', label:'Ações' },
@@ -1221,13 +1334,15 @@ function renderAnswersBreakdown() {
             html += `<div class="ab-type-header" style="color:var(--text-muted);background:rgba(255,255,255,0.02)"><span>${cat.label}</span></div>`;
             const v1 = a[cat.key].v1;
             const v2 = a[cat.key].v2;
+            const c1 = v1 === 3 ? '#ef4444' : '#f87171';
+            const c2 = v2 === 3 ? '#ef4444' : '#60a5fa';
             html += `<div class="ab-row">
                 <div class="ab-question"><span class="ab-num">1.0</span>${c.items[cat.key].v1}</div>
-                <div class="ab-answer" data-val="${v1}" style="color:#f87171">${v1} — ${labelMap[v1]}</div>
+                <div class="ab-answer" data-val="${v1}" style="color:${c1}">${v1} — ${labelMap[v1]}</div>
             </div>`;
             html += `<div class="ab-row">
                 <div class="ab-question"><span class="ab-num">2.0</span>${c.items[cat.key].v2}</div>
-                <div class="ab-answer" data-val="${v2}" style="color:#60a5fa">${v2} — ${labelMap[v2]}</div>
+                <div class="ab-answer" data-val="${v2}" style="color:${c2}">${v2} — ${labelMap[v2]}</div>
             </div>`;
         });
 
@@ -1458,7 +1573,7 @@ function hexToRgb(hex) {
 
 function addAnswersPages(pdf, pageW, pageH, margin) {
     const usableW = pageW - margin * 2;
-    const labelMap = { 0:'Não me identifico', 1:'Parcialmente', 2:'Me identifico muito' };
+    const labelMap = { 0:'Não me identifico', 1:'Parcialmente', 2:'Me identifico muito', 3:'Grande impacto ⚠' };
     const CATS = [
         { key:'interno', label:'Interno' },
         { key:'acoes', label:'Ações' },
@@ -1493,8 +1608,8 @@ function addAnswersPages(pdf, pageW, pageH, margin) {
 
     CHAKRAS.forEach(c => {
         const a = answers[c.id];
-        const totalV1 = a.interno.v1 + a.acoes.v1 + a.resultados.v1;
-        const totalV2 = a.interno.v2 + a.acoes.v2 + a.resultados.v2;
+        const totalV1 = cap(a.interno.v1) + cap(a.acoes.v1) + cap(a.resultados.v1);
+        const totalV2 = cap(a.interno.v2) + cap(a.acoes.v2) + cap(a.resultados.v2);
 
         if (y + 50 > pageH - margin) y = newPage();
 
@@ -1525,8 +1640,10 @@ function addAnswersPages(pdf, pageW, pageH, margin) {
             pdf.rect(margin, y - 1, usableW, 4.2, 'F');
             pdf.setFont('helvetica', 'normal');
             pdf.setFontSize(6.5);
-            pdf.setTextColor(248, 113, 113);
-            const line1 = pdf.splitTextToSize('1.0: ' + c.items[cat.key].v1, colAnswer - margin - 4);
+            if (v1 === 3) { pdf.setTextColor(239, 68, 68); pdf.setFont('helvetica', 'bold'); }
+            else pdf.setTextColor(248, 113, 113);
+            const prefix1 = v1 === 3 ? '⚠ 1.0: ' : '1.0: ';
+            const line1 = pdf.splitTextToSize(prefix1 + c.items[cat.key].v1, colAnswer - margin - 4);
             pdf.text(line1, margin + 1, y + 2.5);
             pdf.setFont('helvetica', 'bold');
             pdf.text(v1 + ' \u2014 ' + labelMap[v1], colAnswer, y + 2.5);
@@ -1534,8 +1651,10 @@ function addAnswersPages(pdf, pageW, pageH, margin) {
 
             pdf.setFont('helvetica', 'normal');
             pdf.setFontSize(6.5);
-            pdf.setTextColor(96, 165, 250);
-            const line2 = pdf.splitTextToSize('2.0: ' + c.items[cat.key].v2, colAnswer - margin - 4);
+            if (v2 === 3) { pdf.setTextColor(239, 68, 68); pdf.setFont('helvetica', 'bold'); }
+            else pdf.setTextColor(96, 165, 250);
+            const prefix2 = v2 === 3 ? '⚠ 2.0: ' : '2.0: ';
+            const line2 = pdf.splitTextToSize(prefix2 + c.items[cat.key].v2, colAnswer - margin - 4);
             pdf.text(line2, margin + 1, y + 2.5);
             pdf.setFont('helvetica', 'bold');
             pdf.text(v2 + ' \u2014 ' + labelMap[v2], colAnswer, y + 2.5);
@@ -1568,7 +1687,8 @@ async function exportPDF() {
         const sections = [
             document.getElementById('profileOverview'),
             ...document.querySelectorAll('.chart-card'),
-            document.getElementById('profileDetails')
+            document.getElementById('profileDetails'),
+            document.getElementById('priorityReport')
         ].filter(el => el && el.innerHTML.trim() !== '');
 
         let currentY = margin;
