@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Resultados — Jogo da Alma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+    --bg-primary: #07060e;
+    --bg-secondary: #0d0b18;
+    --bg-card: #13112a;
+    --bg-card-hover: #1a1740;
+    --text-primary: #f0eef6;
+    --text-secondary: #a8a3c0;
+    --text-muted: #6b6590;
+    --accent-amber: #f59e0b;
+    --accent-purple: #8b5cf6;
+    --border-subtle: rgba(245, 158, 11, 0.12);
+    --border-light: rgba(255, 255, 255, 0.06);
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --color-basico: #e74c3c;
+    --color-sacral: #e67e22;
+    --color-plexo: #f1c40f;
+    --color-cardiaco: #2ecc71;
+    --color-laringeo: #3498db;
+    --color-frontal: #6c5ce7;
+    --color-coronario: #a855f7;
+    --zone-low: #ef4444;
+    --zone-mid: #f59e0b;
+    --zone-high: #3b82f6;
+    --zone-top: #10b981;
+}
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ===== NAV ===== */
+.top-bar {
+    position: fixed; top:0; left:0; right:0; z-index:1000;
+    padding: 0.8rem 0;
+    background: rgba(7,6,14,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+}
+.top-bar .container {
+    display:flex; align-items:center; justify-content:space-between; max-width:900px;
+}
+.top-bar-logo {
+    font-family: var(--font-heading); font-size:1.4rem; font-weight:700;
+    color: var(--text-primary); text-decoration:none; display:flex; align-items:center; gap:0.4rem;
+}
+.top-bar-logo .icon { color: var(--accent-amber); font-size:1rem; }
+.top-bar-back {
+    color: var(--text-secondary); text-decoration:none; font-size:0.9rem;
+    display:flex; align-items:center; gap:0.3rem; transition: color 0.3s;
+}
+.top-bar-back:hover { color: var(--accent-amber); }
+
+/* ===== SCREENS ===== */
+.screen { display:none; min-height:100vh; padding-top: 4.5rem; }
+.screen.active { display:block; }
+
+/* ===== LANDING ===== */
+.landing-hero {
+    text-align:center; padding: 5rem 0 3rem;
+    background: radial-gradient(ellipse at 50% 30%, rgba(245,158,11,0.06) 0%, transparent 60%);
+}
+.landing-hero .tag {
+    display:inline-block; font-size:0.8rem; font-weight:600;
+    letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-amber);
+    margin-bottom:1.2rem; padding:0.35rem 1rem;
+    border:1px solid rgba(245,158,11,0.25); border-radius:100px;
+}
+.landing-hero h1 {
+    font-family:var(--font-heading); font-size:clamp(2.5rem,6vw,4rem);
+    font-weight:700; line-height:1.1; margin-bottom:1.2rem;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-amber) 50%, #fb923c 100%);
+    background-size:200% 200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; animation: shimmer 6s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+.landing-hero p { color:var(--text-secondary); font-size:1.15rem; max-width:600px; margin:0 auto 2rem; line-height:1.8; }
+.btn-start {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:1rem 2.5rem; background:var(--accent-amber); color:var(--bg-primary);
+    border:none; border-radius:100px; font-size:1.1rem; font-weight:600;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+}
+.btn-start:hover { transform:translateY(-2px); box-shadow:0 0 30px rgba(245,158,11,0.3); }
+.btn-skip {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.7rem 1.8rem; background:transparent;
+    border:1px solid var(--accent-purple); color:var(--accent-purple);
+    border-radius:100px; font-size:0.9rem; font-weight:500;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body); opacity:0.7;
+}
+.btn-skip:hover { opacity:1; background:rgba(139,92,246,0.1); }
+
+/* Chakra overview grid */
+.chakra-overview { padding: 0 0 5rem; }
+.chakra-overview h2 {
+    font-family:var(--font-heading); font-size:2rem; text-align:center;
+    margin-bottom:0.5rem; font-weight:700;
+}
+.chakra-overview .subtitle {
+    text-align:center; color:var(--text-secondary); font-size:1rem;
+    margin-bottom:2.5rem; max-width:550px; margin-left:auto; margin-right:auto;
+}
+.overview-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:1.2rem; }
+.overview-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:14px; padding:1.5rem; position:relative; overflow:hidden;
+    transition: all 0.3s;
+}
+.overview-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--chakra-color); opacity:0.7;
+}
+.overview-card:hover { transform:translateY(-3px); border-color: color-mix(in srgb, var(--chakra-color) 30%, transparent); }
+.overview-card h3 { font-family:var(--font-heading); font-size:1.4rem; font-weight:700; margin-bottom:0.2rem; }
+.overview-card .theme { color:var(--chakra-color); font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.6rem; }
+.overview-card .question { color:var(--text-secondary); font-size:0.95rem; font-style:italic; font-family:var(--font-heading); }
+
+/* How section */
+.how-section { padding:0 0 5rem; }
+.how-section h2 { font-family:var(--font-heading); font-size:1.8rem; text-align:center; margin-bottom:0.5rem; }
+.how-section .subtitle { text-align:center; color:var(--text-secondary); margin-bottom:2rem; }
+.how-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+.how-step {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:14px; padding:1.5rem; text-align:center;
+}
+.how-step .num {
+    font-family:var(--font-heading); font-size:2.5rem; font-weight:700;
+    color:var(--accent-amber); opacity:0.3; line-height:1; margin-bottom:0.3rem;
+}
+.how-step h4 { font-family:var(--font-heading); font-size:1.2rem; margin-bottom:0.5rem; }
+.how-step p { color:var(--text-secondary); font-size:0.9rem; }
+
+/* ===== EXPLANATION ===== */
+.explain-hero { padding:5rem 0 3rem; text-align:center; }
+.explain-hero h1 {
+    font-family:var(--font-heading); font-size:2.2rem; font-weight:700;
+    margin-bottom:0.5rem; color:var(--text-primary);
+}
+.explain-hero > p {
+    color:var(--text-secondary); font-size:1.05rem; max-width:600px; margin:0 auto;
+}
+.scale-cards {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1rem; max-width:900px; margin:2.5rem auto 0;
+}
+.scale-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:1.5rem; text-align:left; transition:all 0.3s;
+}
+.scale-card:hover { border-color: rgba(255,255,255,0.1); }
+.scale-number {
+    font-family:var(--font-heading); font-size:2rem; font-weight:700;
+    line-height:1; margin-bottom:0.5rem;
+}
+.scale-card:nth-child(1) .scale-number { color:var(--zone-low); }
+.scale-card:nth-child(2) .scale-number { color:var(--zone-mid); }
+.scale-card:nth-child(3) .scale-number { color:var(--zone-high); }
+.scale-card:nth-child(4) .scale-number { color:var(--zone-top); }
+.scale-card:nth-child(4) { border-color:rgba(16,185,129,0.25); }
+.scale-label { font-size:1rem; font-weight:600; color:var(--text-primary); margin-bottom:0.4rem; }
+.scale-desc { font-size:0.85rem; color:var(--text-secondary); line-height:1.5; }
+.explain-cta { text-align:center; margin-top:2.5rem; padding-bottom:3rem; }
+
+/* ===== QUIZ ===== */
+.quiz-screen { padding-top:4.5rem; }
+.quiz-progress {
+    position:sticky; top:3.5rem; z-index:50;
+    background:rgba(7,6,14,0.95); backdrop-filter:blur(15px);
+    padding:0.8rem 0; border-bottom:1px solid var(--border-subtle);
+}
+.progress-dots { display:flex; justify-content:center; gap:0.5rem; align-items:center; margin-bottom:0.5rem; }
+.progress-dot {
+    width:12px; height:12px; border-radius:50%; border:2px solid var(--text-muted);
+    background:transparent; transition:all 0.3s; cursor:pointer;
+}
+.progress-dot.done { border-color:var(--accent-amber); background:var(--accent-amber); }
+.progress-dot.current { border-color:var(--dot-color); background:var(--dot-color); transform:scale(1.3); box-shadow:0 0 12px color-mix(in srgb, var(--dot-color) 50%, transparent); }
+.progress-text { text-align:center; font-size:0.8rem; color:var(--text-muted); }
+.progress-bar-track {
+    height:3px; background:rgba(255,255,255,0.06); border-radius:3px;
+    margin-top:0.5rem; overflow:hidden;
+}
+.progress-bar-fill { height:100%; background:var(--accent-amber); border-radius:3px; transition:width 0.4s ease; }
+
+.chakra-page { display:none; padding:2rem 0 4rem; }
+.chakra-page.active { display:block; }
+.chakra-page-header {
+    text-align:center; margin-bottom:2.5rem;
+    padding:2rem; border-radius:16px;
+    background: var(--bg-card);
+    border:1px solid var(--border-subtle);
+    position:relative; overflow:hidden;
+}
+.chakra-page-header::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background: var(--chakra-color);
+}
+.chakra-page-header h2 {
+    font-family:var(--font-heading); font-size:2rem; font-weight:700; margin-bottom:0.3rem;
+}
+.chakra-page-header .theme-label {
+    color:var(--chakra-color); font-size:0.9rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.15em; margin-bottom:0.5rem;
+}
+.chakra-page-header .desc { color:var(--text-secondary); font-size:1rem; }
+
+.scale-legend {
+    display:flex; justify-content:center; gap:0.6rem; flex-wrap:wrap;
+    margin-bottom:2rem; padding:0.7rem 1rem; border-radius:10px;
+    background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle);
+}
+.scale-legend-item {
+    display:flex; align-items:center; gap:0.3rem; font-size:0.72rem; color:var(--text-muted);
+}
+.scale-legend-dot {
+    width:8px; height:8px; border-radius:50%;
+}
+
+/* Question items with 0-10 */
+.question-item {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:12px; padding:1rem 1.2rem; margin-bottom:0.8rem;
+    transition: border-color 0.3s;
+}
+.question-item:hover { border-color: rgba(245,158,11,0.25); }
+.question-text { font-size:0.95rem; color:var(--text-secondary); line-height:1.5; margin-bottom:0.8rem; }
+.rating-row { display:flex; align-items:center; gap:0.5rem; }
+.rating-buttons-10 { display:flex; gap:0.25rem; flex:1; }
+.r10-btn {
+    flex:1; min-width:0; height:34px; border-radius:6px;
+    border:1px solid rgba(255,255,255,0.08); background:transparent;
+    color:var(--text-muted); font-size:0.8rem; font-weight:600;
+    cursor:pointer; transition:all 0.2s; font-family:var(--font-body);
+    display:flex; align-items:center; justify-content:center;
+}
+.r10-btn:hover { border-color:var(--accent-amber); color:var(--text-primary); background:rgba(245,158,11,0.05); }
+.r10-btn.selected { transform:scale(1.05); }
+.r10-btn.selected.zone-low { border-color:var(--zone-low); background:rgba(239,68,68,0.15); color:var(--zone-low); }
+.r10-btn.selected.zone-mid { border-color:var(--zone-mid); background:rgba(245,158,11,0.15); color:var(--zone-mid); }
+.r10-btn.selected.zone-high { border-color:var(--zone-high); background:rgba(59,130,246,0.15); color:var(--zone-high); }
+.r10-btn.selected.zone-top { border-color:var(--zone-top); background:rgba(16,185,129,0.15); color:var(--zone-top); }
+.rating-zone-label {
+    font-size:0.7rem; color:var(--text-muted); text-align:center;
+    margin-top:0.4rem; min-height:1em;
+    transition: color 0.3s;
+}
+
+/* Nota Final */
+.nota-final-section {
+    margin-top:1.5rem; padding:1.5rem;
+    background:var(--bg-card); border:2px solid var(--border-subtle);
+    border-radius:16px; position:relative; overflow:hidden;
+}
+.nota-final-section::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg, var(--accent-amber), #fb923c);
+}
+.nota-final-label {
+    font-family:var(--font-heading); font-size:1.2rem; font-weight:700;
+    color:var(--accent-amber); margin-bottom:0.3rem;
+}
+.nota-final-desc {
+    font-size:0.9rem; color:var(--text-secondary); font-style:italic;
+    font-family:var(--font-heading); margin-bottom:1rem;
+}
+
+.quiz-nav {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.5rem 0; border-top:1px solid var(--border-subtle); margin-top:1rem;
+}
+.btn-nav {
+    padding:0.8rem 2rem; border-radius:100px; font-size:0.95rem;
+    font-weight:500; cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+    display:flex; align-items:center; gap:0.4rem;
+}
+.btn-prev {
+    background:transparent; border:1px solid var(--border-subtle); color:var(--text-secondary);
+}
+.btn-prev:hover { border-color:var(--text-primary); color:var(--text-primary); }
+.btn-next {
+    background:var(--accent-amber); border:none; color:var(--bg-primary); font-weight:600;
+}
+.btn-next:hover { transform:translateY(-2px); box-shadow:0 0 25px rgba(245,158,11,0.3); }
+.btn-next:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:none; }
+
+/* ===== RESULTS ===== */
+.results-screen { padding-top:4.5rem; }
+.results-header { text-align:center; padding:4rem 0 2rem; }
+.results-header h1 {
+    font-family:var(--font-heading); font-size:clamp(2rem,5vw,3rem);
+    font-weight:700; margin-bottom:0.5rem;
+}
+.results-header p { color:var(--text-secondary); font-size:1.1rem; }
+
+.results-overview {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+    gap:0.8rem; margin-bottom:3rem;
+}
+.result-mini {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:12px; padding:1rem; text-align:center; position:relative; overflow:hidden;
+}
+.result-mini::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--chakra-color);
+}
+.result-mini .name { font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:0.3rem; }
+.result-mini .score-val { font-family:var(--font-heading); font-size:1.8rem; font-weight:700; margin-bottom:0.1rem; }
+.result-mini .score-of10 { font-size:0.7rem; color:var(--text-muted); margin-bottom:0.3rem; }
+.result-mini .status-label {
+    font-size:0.7rem; font-weight:600; padding:0.15rem 0.5rem;
+    border-radius:100px; display:inline-block;
+}
+.status-fragil { background:rgba(239,68,68,0.15); color:#f87171; }
+.status-construcao { background:rgba(245,158,11,0.15); color:#fbbf24; }
+.status-solido { background:rgba(16,185,129,0.15); color:#34d399; }
+
+/* Level HUD */
+.level-hud { margin-bottom:3rem; }
+.v2-card {
+    background: var(--bg-card);
+    border:1px solid var(--border-subtle);
+    border-radius:20px; overflow:hidden;
+    box-shadow: 0 0 80px rgba(245,158,11,0.04);
+}
+.v2-card .v2-header {
+    display:flex; align-items:center; gap:1.5rem;
+    padding:2rem; position:relative;
+    background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(251,146,60,0.04) 100%);
+    border-bottom:1px solid var(--border-subtle);
+}
+.v2-avatar { width:100px; height:100px; border-radius:50%; position:relative; flex-shrink:0; }
+.v2-avatar canvas { width:100px; height:100px; }
+.v2-avatar-center {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;
+}
+.v2-avatar-center .v2-lvl {
+    font-family:var(--font-heading); font-size:2.2rem; font-weight:700; line-height:1; display:block;
+}
+.v2-avatar-center .v2-of { font-size:0.6rem; color:var(--text-muted); }
+.v2-info { flex:1; min-width:0; }
+.v2-info .v2-tag {
+    display:inline-block; font-size:0.6rem; font-weight:600;
+    letter-spacing:0.15em; text-transform:uppercase;
+    padding:0.15rem 0.6rem; border-radius:100px; margin-bottom:0.4rem;
+}
+.v2-info .v2-rank-name {
+    font-family:var(--font-heading); font-size:1.6rem; font-weight:700;
+    line-height:1.2; margin-bottom:0.2rem;
+}
+.v2-info .v2-desc-text {
+    color:var(--text-secondary); font-size:0.85rem; line-height:1.5; margin-bottom:0.6rem;
+}
+.v2-stars { font-size:1rem; letter-spacing:3px; }
+.v2-xp-row { display:flex; align-items:center; gap:0.6rem; margin-top:0.5rem; }
+.v2-xp-label { font-size:0.7rem; color:var(--text-muted); white-space:nowrap; min-width:50px; }
+.v2-xp-track {
+    flex:1; height:6px; background:rgba(255,255,255,0.06);
+    border-radius:3px; overflow:hidden;
+}
+.v2-xp-fill {
+    height:100%; border-radius:3px; transition:width 1.2s ease;
+    background:linear-gradient(90deg, var(--accent-amber), #fb923c);
+}
+.v2-pct { font-size:0.8rem; font-weight:700; min-width:40px; text-align:right; }
+.v2-stat-number { position:absolute; top:1.2rem; right:1.5rem; text-align:right; }
+.v2-stat-number .big-pct {
+    font-family:var(--font-heading); font-size:2.5rem; font-weight:700; line-height:1;
+}
+.v2-stat-number .pct-label {
+    font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em;
+}
+.v2-chakra-row {
+    display:grid; grid-template-columns:repeat(7,1fr);
+    border-top:1px solid var(--border-subtle);
+}
+.v2-chakra-cell {
+    padding:1rem 0.3rem; text-align:center;
+    border-right:1px solid var(--border-subtle);
+    position:relative; transition: background 0.3s;
+}
+.v2-chakra-cell:last-child { border-right:none; }
+.v2-chakra-cell:hover { background:rgba(255,255,255,0.02); }
+.v2-chakra-cell::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--cell-color);
+}
+.v2-cell-name {
+    font-size:0.6rem; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--text-muted); margin-bottom:0.3rem;
+}
+.v2-cell-level {
+    font-family:var(--font-heading); font-size:1.6rem; font-weight:700;
+    line-height:1; margin-bottom:0.1rem;
+}
+.v2-cell-rank { font-size:0.55rem; color:var(--text-muted); margin-bottom:0.3rem; }
+.v2-cell-bar-track {
+    width:80%; margin:0 auto; height:4px; border-radius:2px;
+    background:rgba(255,255,255,0.06); overflow:hidden;
+}
+.v2-cell-bar-fill { height:100%; border-radius:2px; background:var(--cell-color); transition:width 1s ease; }
+.v2-cell-pct { font-size:0.65rem; font-weight:600; margin-top:0.2rem; }
+
+/* Result detail */
+.result-detail {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:2rem; margin-bottom:1.5rem;
+    position:relative; overflow:hidden;
+}
+.result-detail::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:var(--chakra-color);
+}
+.result-detail-header {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:1.5rem; flex-wrap:wrap; gap:0.5rem;
+}
+.result-detail-header h3 { font-family:var(--font-heading); font-size:1.6rem; font-weight:700; }
+.score-bars { margin-bottom:1.2rem; }
+.score-row { margin-bottom:0.8rem; }
+.score-label {
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.85rem; margin-bottom:0.3rem;
+}
+.score-label .label-text { font-weight:500; }
+.score-label .score-value { color:var(--text-muted); font-weight:600; }
+.score-track {
+    height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;
+}
+.score-fill { height:100%; border-radius:4px; transition:width 1s ease; }
+.result-interpretation {
+    background:rgba(255,255,255,0.02); border-radius:10px;
+    padding:1.2rem; border-left:3px solid var(--chakra-color);
+}
+.result-interpretation h4 {
+    font-family:var(--font-heading); font-size:1.1rem; margin-bottom:0.5rem;
+    color:var(--text-primary);
+}
+.result-interpretation p { color:var(--text-secondary); font-size:0.9rem; line-height:1.7; }
+.result-interpretation .phrase {
+    font-family:var(--font-heading); font-style:italic; color:var(--accent-amber);
+    font-size:1rem; margin-top:0.8rem; display:block;
+}
+
+/* Items breakdown */
+.items-detail {
+    margin-top:1rem; padding-top:1rem;
+    border-top:1px solid rgba(255,255,255,0.04);
+}
+.item-row {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0.4rem 0; font-size:0.85rem; gap:0.8rem;
+}
+.item-row .item-text { flex:1; color:var(--text-secondary); }
+.item-row .item-score {
+    font-weight:700; font-size:0.8rem; padding:0.15rem 0.5rem;
+    border-radius:6px; min-width:35px; text-align:center;
+}
+
+/* Charts */
+.charts-section { margin-bottom:3rem; }
+.charts-section h2 {
+    font-family:var(--font-heading); font-size:1.8rem; font-weight:700;
+    text-align:center; margin-bottom:0.5rem;
+}
+.charts-section .charts-subtitle {
+    text-align:center; color:var(--text-secondary); font-size:0.95rem; margin-bottom:2rem;
+}
+.charts-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+.chart-card {
+    background:var(--bg-card); border:1px solid var(--border-subtle);
+    border-radius:16px; padding:1.5rem; overflow:hidden;
+}
+.chart-card h3 {
+    font-family:var(--font-heading); font-size:1.3rem; font-weight:600;
+    margin-bottom:0.3rem; text-align:center;
+}
+.chart-card .chart-desc {
+    text-align:center; color:var(--text-muted); font-size:0.8rem; margin-bottom:1rem;
+}
+.chart-canvas-wrap {
+    display:flex; justify-content:center; align-items:center;
+    width:100%; overflow:hidden;
+}
+.chart-canvas-wrap canvas { max-width:100%; height:auto; }
+.chart-legend {
+    display:flex; justify-content:center; gap:1.5rem; margin-top:1rem;
+    font-size:0.8rem; color:var(--text-secondary);
+}
+.chart-legend span { display:flex; align-items:center; gap:0.4rem; }
+.legend-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+
+/* Footer */
+.results-footer { text-align:center; padding:2rem 0 5rem; }
+.btn-export {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.9rem 2.2rem; background:var(--accent-amber);
+    border:1px solid var(--accent-amber); color:var(--bg-primary);
+    border-radius:100px; font-size:1rem; font-weight:600;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+    margin-right:1rem;
+}
+.btn-export:hover { background:transparent; color:var(--accent-amber); }
+.btn-export:disabled { opacity:0.5; cursor:wait; }
+.btn-restart {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.9rem 2.2rem; background:transparent;
+    border:1px solid var(--accent-amber); color:var(--accent-amber);
+    border-radius:100px; font-size:1rem; font-weight:500;
+    cursor:pointer; transition:all 0.3s; font-family:var(--font-body);
+}
+.btn-restart:hover { background:var(--accent-amber); color:var(--bg-primary); }
+.pdf-overlay {
+    position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999;
+    background:rgba(10,10,15,0.85); display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:1rem;
+}
+.pdf-overlay .spinner {
+    width:48px; height:48px; border:4px solid rgba(255,255,255,0.1);
+    border-top-color:var(--accent-amber); border-radius:50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.pdf-overlay p { color:var(--text-secondary); font-size:1rem; }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .how-steps { grid-template-columns:1fr; }
+    .overview-grid { grid-template-columns:1fr; }
+    .results-overview { grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); }
+    .quiz-progress { top:3.2rem; }
+    .chart-card { padding:1rem; }
+    .v2-header { flex-direction:column; text-align:center; }
+    .v2-stat-number { position:static; text-align:center; margin-bottom:0.5rem; }
+    .v2-chakra-row { grid-template-columns:repeat(4,1fr); }
+    .v2-chakra-cell:nth-child(4) { border-right:none; }
+    .r10-btn { height:30px; font-size:0.7rem; }
+    .scale-cards { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:480px){
+    html { font-size:15px; }
+    .container { padding:0 1rem; }
+    .r10-btn { height:28px; font-size:0.65rem; border-radius:4px; }
+    .rating-buttons-10 { gap:0.15rem; }
+}
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container">
+        <a href="questionario-resultados.html" class="top-bar-logo"><span class="icon">&#10022;</span> Jogo da Alma</a>
+        <a href="index.html" class="top-bar-back">&larr; Voltar ao site</a>
+    </div>
+</div>
+
+<!-- ==================== LANDING ==================== -->
+<div class="screen active" id="screen-landing">
+    <div class="landing-hero">
+        <div class="container">
+            <span class="tag">Diagn&oacute;stico de Resultados</span>
+            <h1>O quanto sua vida se parece com isso?</h1>
+            <p>Avalie a qualidade real da sua vida em cada centro de energia. De 0 a 10, o quanto cada afirmação reflete o que você realmente vive hoje.</p>
+            <button class="btn-start" onclick="showScreen('explain')">Iniciar Diagnóstico <span>&rarr;</span></button>
+            <br><br>
+            <button class="btn-skip" onclick="skipToResults()">Ir para o final (teste) &rarr;</button>
+        </div>
+    </div>
+
+    <div class="chakra-overview">
+        <div class="container">
+            <h2>Os 7 Eixos da Vida Real</h2>
+            <p class="subtitle">Cada eixo representa uma dimensão essencial da sua vida. Avalie com sinceridade — não como gostaria que fosse, mas como realmente é.</p>
+            <div class="overview-grid" id="overviewGrid"></div>
+        </div>
+    </div>
+
+    <div class="how-section">
+        <div class="container">
+            <h2>Como Funciona</h2>
+            <p class="subtitle">Simples, direto e revelador.</p>
+            <div class="how-steps">
+                <div class="how-step">
+                    <div class="num">1</div>
+                    <h4>Avalie</h4>
+                    <p>Para cada afirmação, dê uma nota de 0 a 10 baseada no quanto ela se parece com a sua vida real hoje.</p>
+                </div>
+                <div class="how-step">
+                    <div class="num">2</div>
+                    <h4>Resuma</h4>
+                    <p>No final de cada chakra, dê uma nota geral de 0 a 10 para a pergunta central daquele eixo.</p>
+                </div>
+                <div class="how-step">
+                    <div class="num">3</div>
+                    <h4>Descubra</h4>
+                    <p>Veja seu mapa de resultados com gráficos, interpretações e recomendações práticas.</p>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:2.5rem;">
+                <button class="btn-start" onclick="showScreen('explain')">Começar Agora <span>&rarr;</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== EXPLANATION ==================== -->
+<div class="screen" id="screen-explain">
+    <div class="explain-hero">
+        <div class="container">
+            <span class="tag">Como Responder</span>
+            <h1>Escala de 0 a 10</h1>
+            <p>Leia cada afirmação e avalie: o quanto a sua vida real se parece com isso?</p>
+
+            <div class="scale-cards">
+                <div class="scale-card">
+                    <div class="scale-number">0–3</div>
+                    <div class="scale-label">Não se parece nada</div>
+                    <div class="scale-desc">Isso não faz parte da minha vida. É distante da minha realidade atual.</div>
+                </div>
+                <div class="scale-card">
+                    <div class="scale-number">4–6</div>
+                    <div class="scale-label">Se parece parcialmente</div>
+                    <div class="scale-desc">Existe em parte, de forma irregular ou incompleta.</div>
+                </div>
+                <div class="scale-card">
+                    <div class="scale-number">7–8</div>
+                    <div class="scale-label">Se parece bastante</div>
+                    <div class="scale-desc">Está bem presente na minha vida, de forma consistente.</div>
+                </div>
+                <div class="scale-card">
+                    <div class="scale-number">9–10</div>
+                    <div class="scale-label">Se parece totalmente</div>
+                    <div class="scale-desc">É exatamente a minha vida. Plenamente presente e real.</div>
+                </div>
+            </div>
+
+            <div class="explain-cta">
+                <button class="btn-start" onclick="startQuiz()">Começar Questionário <span>&rarr;</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div class="screen" id="screen-quiz">
+    <div class="quiz-progress">
+        <div class="container">
+            <div class="progress-dots" id="progressDots"></div>
+            <div class="progress-text" id="progressText"></div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBar"></div></div>
+        </div>
+    </div>
+    <div class="container" id="quizContainer"></div>
+</div>
+
+<!-- ==================== RESULTS ==================== -->
+<div class="screen" id="screen-results">
+    <div class="container">
+        <div class="results-header">
+            <h1>Seu Diagnóstico de Resultados</h1>
+            <p>O quanto a sua vida real corresponde ao que cada centro de energia pede.</p>
+        </div>
+        <div class="level-hud" id="levelHud"></div>
+        <div class="results-overview" id="resultsOverview"></div>
+
+        <div class="charts-section">
+            <h2>Visão Geral</h2>
+            <p class="charts-subtitle">Seus 7 eixos mapeados em gráficos.</p>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Mapa dos Resultados</h3>
+                    <p class="chart-desc">Gráfico radar — visão completa da qualidade de vida em cada eixo</p>
+                    <div class="chart-canvas-wrap"><canvas id="chartRadar" width="500" height="500"></canvas></div>
+                    <div class="chart-legend">
+                        <span><span class="legend-dot" style="background:var(--accent-amber)"></span> Média por Chakra</span>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Nota Média por Eixo</h3>
+                    <p class="chart-desc">Barras horizontais — nota média (0-10) em cada eixo</p>
+                    <div class="chart-canvas-wrap"><canvas id="chartBars" width="700" height="380"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Itens vs Nota Final</h3>
+                    <p class="chart-desc">Comparação entre a média dos 5 itens e a nota final auto-avaliada</p>
+                    <div class="chart-canvas-wrap"><canvas id="chartComparison" width="700" height="380"></canvas></div>
+                    <div class="chart-legend">
+                        <span><span class="legend-dot" style="background:var(--accent-amber)"></span> Média Itens</span>
+                        <span><span class="legend-dot" style="background:var(--accent-purple)"></span> Nota Final</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsDetails"></div>
+
+        <div class="results-footer">
+            <button class="btn-export" onclick="exportPDF()">&#128196; Exportar PDF</button>
+            <button class="btn-restart" onclick="restartQuiz()">&#x21bb; Refazer Diagnóstico</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const CHAKRAS = [
+  {
+    id:'basico', name:'Básico', theme:'Segurança',
+    color:'#e74c3c',
+    centralQuestion:'"Minha vida tem uma base estável e segura."',
+    phrase:'"Segurança não é só sentir — é ter uma vida que sustenta."',
+    questions: [
+      'Tenho acesso consistente a casa, comida e dinheiro',
+      'Minha saúde física está sob controle',
+      'Me sinto seguro fisicamente',
+      'Me sinto seguro emocionalmente (não em ameaça constante)',
+      'Minha vida tem um nível de previsibilidade e estabilidade'
+    ],
+    interpretations: {
+      low: { title:'Base frágil', text:'Sua vida carece de segurança e estabilidade básica. A energia está direcionada para sobrevivência, o que dificulta evoluir em outras áreas.', rec:'Priorize criar uma base mínima: renda estável, rotina organizada, saúde em dia. Antes de expandir, estabilize.' },
+      mid: { title:'Base em construção', text:'Existe alguma estrutura, mas ainda oscila. Momentos de segurança seguidos de instabilidade. O progresso é real, porém inconsistente.', rec:'Consolide o que já funciona. Crie previsibilidade financeira e emocional. Trabalhe consistência.' },
+      high: { title:'Base sólida', text:'Vida material bem estruturada. Segurança presente e sustentada. Isso libera energia para crescer em outros eixos.', rec:'Mantenha a base. Use essa estabilidade como plataforma de evolução.' }
+    }
+  },
+  {
+    id:'sacral', name:'Sacral', theme:'Prazer & Vida',
+    color:'#e67e22',
+    centralQuestion:'"Minha vida tem prazer, conexão e variedade."',
+    phrase:'"Prazer não é luxo — é sinal de que a vida está sendo vivida."',
+    questions: [
+      'Tenho hobbies ou atividades que gosto',
+      'Tenho amigos ou conexões leves',
+      'Tenho vida sexual ativa ou saudável (ou energia criativa equivalente)',
+      'Tenho tempo para diversão',
+      'Minha vida tem variedade (não é repetitiva e vazia)'
+    ],
+    interpretations: {
+      low: { title:'Vida seca', text:'Falta de prazer, estímulo e variedade. A rotina gira em torno de obrigações. Pouco espaço para viver de verdade.', rec:'Reintroduza prazer na rotina. Permita-se momentos de lazer. Conecte-se com atividades que despertam alegria.' },
+      mid: { title:'Prazer parcial', text:'Existem momentos bons, mas instáveis. A vida oscila entre obrigação e respiro. Prazer presente mas não sustentado.', rec:'Proteja os momentos de leveza. Crie rituais de prazer. Sustente o que já funciona.' },
+      high: { title:'Vida com fluidez', text:'Presença consistente de prazer e variedade. Energia emocional circulando. Vida com sabor e conexão.', rec:'Mantenha o equilíbrio. Use o prazer como combustível, não como fuga.' }
+    }
+  },
+  {
+    id:'plexo', name:'Plexo Solar', theme:'Poder Pessoal',
+    color:'#f1c40f',
+    centralQuestion:'"Eu me sinto capaz, relevante e em movimento."',
+    phrase:'"Resultado não é sorte — é evidência de que você está agindo."',
+    questions: [
+      'Me sinto importante em alguma área da minha vida',
+      'Estou enfrentando desafios (não evitando tudo)',
+      'Estou vencendo ou evoluindo nesses desafios',
+      'Tenho autonomia para tomar decisões',
+      'Sinto que minha vida está indo para algum lugar'
+    ],
+    interpretations: {
+      low: { title:'Baixa potência', text:'Sensação de estagnação e impotência. Dificuldade em gerar movimento e resultado. A vida parece parada.', rec:'Comece com pequenas vitórias. Tome uma decisão por dia. Gere evidência de progresso mínimo.' },
+      mid: { title:'Potência irregular', text:'Momentos de ação seguidos de paralisia. Progresso intermitente. A capacidade existe mas não se sustenta.', rec:'Crie sistemas de consistência. Simplifique metas. Foque em ritmo, não intensidade.' },
+      high: { title:'Alta potência', text:'Movimento constante. Capacidade de gerar resultado real. Sensação de direção e evolução.', rec:'Mantenha o ritmo. Aumente a qualidade sem perder a consistência.' }
+    }
+  },
+  {
+    id:'cardiaco', name:'Cardíaco', theme:'Amor & Pertencimento',
+    color:'#2ecc71',
+    centralQuestion:'"Eu sou amado e pertenço."',
+    phrase:'"Conexão não é quantidade — é ter com quem ser real."',
+    questions: [
+      'Faço parte de um grupo ou rede de pessoas',
+      'Me sinto aceito por quem eu sou',
+      'Recebo afeto e apoio emocional',
+      'Minhas relações não são só por interesse ou troca',
+      'Sinto conexão genuína com outras pessoas'
+    ],
+    interpretations: {
+      low: { title:'Baixa conexão', text:'Solidão ou relações superficiais. Falta de suporte emocional real. A vida funciona mas é vazia de presença humana.', rec:'Invista em uma relação por vez. Pratique vulnerabilidade. Busque conexão genuína.' },
+      mid: { title:'Conexão parcial', text:'Algumas relações boas, mas inconsistentes. Suporte presente porém irregular. Oscila entre proximidade e distância.', rec:'Aprofunde relações que já funcionam. Crie espaços de troca real. Cultive reciprocidade.' },
+      high: { title:'Relações saudáveis', text:'Rede de apoio real. Trocas equilibradas. Presença de amor e afeto na vida de forma consistente.', rec:'Mantenha e nutra essas relações. Continue cultivando presença e troca.' }
+    }
+  },
+  {
+    id:'laringeo', name:'Laríngeo', theme:'Expressão',
+    color:'#3498db',
+    centralQuestion:'"Eu consigo me expressar e ser ouvido."',
+    phrase:'"Expressão não é só falar — é ter espaço para existir."',
+    questions: [
+      'Consigo falar o que penso',
+      'Me sinto ouvido quando me comunico',
+      'Consigo influenciar pessoas ou ambientes',
+      'Não preciso me esconder ou me calar constantemente',
+      'Minha comunicação é clara e autêntica'
+    ],
+    interpretations: {
+      low: { title:'Voz reprimida', text:'Pouco espaço para se expressar. Sensação de invisibilidade. Rica por dentro, silenciosa por fora.', rec:'Crie um canal de expressão. Busque ambientes onde sua voz é recebida. Comece a se posicionar.' },
+      mid: { title:'Expressão parcial', text:'Consegue se expressar em alguns contextos. Ainda existem travas. Voz presente mas inconsistente.', rec:'Expanda os contextos de expressão. Pratique posicionamento. Ganhe espaço.' },
+      high: { title:'Expressão ativa', text:'Espaço real para comunicar. Voz com presença e impacto. Capacidade de existir e ser ouvido.', rec:'Mantenha e amplie seu alcance. Use sua voz com intenção.' }
+    }
+  },
+  {
+    id:'frontal', name:'Frontal', theme:'Clareza',
+    color:'#6c5ce7',
+    centralQuestion:'"Eu entendo minha vida e sei o que fazer."',
+    phrase:'"Direção não é saber tudo — é saber o próximo passo."',
+    questions: [
+      'Eu entendo meus problemas atuais',
+      'Eu sei possíveis soluções',
+      'Estou aprendendo e evoluindo',
+      'Tenho clareza sobre próximos passos',
+      'Sinto que estou progredindo na vida'
+    ],
+    interpretations: {
+      low: { title:'Falta de clareza', text:'Confusão, indecisão ou vida reativa. Sem mapa claro do caminho. Movimento sem rumo definido.', rec:'Defina uma prioridade. Crie um plano simples. Clareza antes de velocidade.' },
+      mid: { title:'Clareza parcial', text:'Tem alguma direção, mas instável. Oscila entre foco e confusão. O caminho existe mas não está nítido.', rec:'Refine prioridades. Crie checkpoints. Desenvolva visão de médio prazo.' },
+      high: { title:'Clareza estratégica', text:'Direção definida. Capacidade de planejar e ajustar. Vida com intenção e foco.', rec:'Mantenha a revisão. Use a clareza para acelerar decisões.' }
+    }
+  },
+  {
+    id:'coronario', name:'Coronário', theme:'Propósito & Conexão',
+    color:'#a855f7',
+    centralQuestion:'"Minha vida tem sentido maior."',
+    phrase:'"Propósito não é descobrir — é construir sentido no que você já faz."',
+    questions: [
+      'Acredito em algo maior que eu',
+      'Me sinto conectado com algo além do material',
+      'Sinto que minha vida tem propósito',
+      'Me sinto especial no sentido de ter um papel único',
+      'Tenho momentos de conexão espiritual ou transcendência'
+    ],
+    interpretations: {
+      low: { title:'Falta de sentido', text:'Vida mecânica ou vazia de significado. Desconexão do propósito. Tudo funciona mas nada faz sentido.', rec:'Reflita sobre o que importa. Conecte ações a significado. Busque experiências que expandam sua perspectiva.' },
+      mid: { title:'Sentido parcial', text:'Momentos de conexão, mas instáveis. Oscila entre clareza e vazio. Propósito presente mas não sustentado.', rec:'Aprofunde reflexões. Crie práticas de conexão. Construa sentido no cotidiano.' },
+      high: { title:'Vida com propósito', text:'Forte senso de significado. Conexão com algo maior sustentando a jornada. Coerência e evolução.', rec:'Mantenha a conexão. Use o propósito como bússola.' }
+    }
+  }
+];
+
+const LEVELS = [
+    { level:5, min:80, name:'Mestre', desc:'Vida plena. Resultados consistentes em múltiplas áreas.', colorA:'#f59e0b', colorB:'#fb923c' },
+    { level:4, min:60, name:'Guardião', desc:'Vida sólida. Base forte com espaço para expandir.', colorA:'#10b981', colorB:'#059669' },
+    { level:3, min:40, name:'Buscador', desc:'Em construção. Progresso visível mas inconsistente.', colorA:'#3b82f6', colorB:'#2563eb' },
+    { level:2, min:20, name:'Aprendiz', desc:'Início da jornada. Reconhecendo o que precisa mudar.', colorA:'#e67e22', colorB:'#d35400' },
+    { level:1, min:0, name:'Desperto', desc:'Primeiro passo. A consciência começa a surgir.', colorA:'#95a5a6', colorB:'#7f8c8d' }
+];
+
+const ZONE_LABELS = {
+    low: 'Não se parece nada',
+    mid: 'Se parece parcialmente',
+    high: 'Se parece bastante',
+    top: 'Se parece totalmente'
+};
+
+const answers = {};
+const notaFinal = {};
+let currentChakraIndex = 0;
+
+function getZone(val) {
+    if (val <= 3) return 'low';
+    if (val <= 6) return 'mid';
+    if (val <= 8) return 'high';
+    return 'top';
+}
+
+function getZoneColor(zone) {
+    return { low:'var(--zone-low)', mid:'var(--zone-mid)', high:'var(--zone-high)', top:'var(--zone-top)' }[zone];
+}
+
+(function buildOverviewGrid() {
+    const grid = document.getElementById('overviewGrid');
+    if (!grid) return;
+    grid.innerHTML = CHAKRAS.map(c => `
+        <div class="overview-card" style="--chakra-color:${c.color}">
+            <h3>${c.name}</h3>
+            <div class="theme">${c.theme}</div>
+            <p class="question">${c.centralQuestion}</p>
+        </div>
+    `).join('');
+})();
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+    currentChakraIndex = 0;
+    CHAKRAS.forEach(c => {
+        answers[c.id] = new Array(5).fill(null);
+        notaFinal[c.id] = null;
+    });
+    buildQuiz();
+    showScreen('quiz');
+    showChakraPage(0);
+}
+
+function buildQuiz() {
+    const container = document.getElementById('quizContainer');
+    container.innerHTML = '';
+
+    const dotsContainer = document.getElementById('progressDots');
+    dotsContainer.innerHTML = '';
+    CHAKRAS.forEach((c, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'progress-dot';
+        dot.style.setProperty('--dot-color', c.color);
+        dot.title = c.name;
+        dot.onclick = () => { if (canNavigateTo(i)) showChakraPage(i); };
+        dotsContainer.appendChild(dot);
+    });
+
+    CHAKRAS.forEach((c, ci) => {
+        const page = document.createElement('div');
+        page.className = 'chakra-page';
+        page.id = 'chakra-page-' + ci;
+        page.style.setProperty('--chakra-color', c.color);
+
+        let html = `
+            <div class="chakra-page-header" style="--chakra-color:${c.color}">
+                <div class="theme-label">${c.theme}</div>
+                <h2>${c.name}</h2>
+                <div class="desc">${c.centralQuestion}</div>
+            </div>
+            <div class="scale-legend">
+                <div class="scale-legend-item"><span class="scale-legend-dot" style="background:var(--zone-low)"></span> 0–3 Não se parece</div>
+                <div class="scale-legend-item"><span class="scale-legend-dot" style="background:var(--zone-mid)"></span> 4–6 Parcialmente</div>
+                <div class="scale-legend-item"><span class="scale-legend-dot" style="background:var(--zone-high)"></span> 7–8 Bastante</div>
+                <div class="scale-legend-item"><span class="scale-legend-dot" style="background:var(--zone-top)"></span> 9–10 Totalmente</div>
+            </div>
+        `;
+
+        c.questions.forEach((q, qi) => {
+            html += buildQuestionItem(c.id, qi, q);
+        });
+
+        html += `
+            <div class="nota-final-section">
+                <div class="nota-final-label">&#128073; Nota Final — ${c.name}</div>
+                <div class="nota-final-desc">${c.centralQuestion}</div>
+                <div class="question-text" style="margin-bottom:0.5rem;font-size:0.85rem;color:var(--text-muted)">Considerando tudo, de 0 a 10, o quanto essa frase se parece com a sua vida?</div>
+                <div class="rating-row">
+                    <div class="rating-buttons-10">
+                        ${Array.from({length:11}, (_, v) => {
+                            const z = getZone(v);
+                            return `<button class="r10-btn" data-chakra="${c.id}" data-type="final" data-value="${v}" onclick="setNotaFinal(this,'${c.id}',${v})">${v}</button>`;
+                        }).join('')}
+                    </div>
+                </div>
+                <div class="rating-zone-label" id="zone-label-final-${c.id}"></div>
+            </div>
+        `;
+
+        html += `<div class="quiz-nav">
+            <button class="btn-nav btn-prev" onclick="prevChakra()" ${ci === 0 ? 'style="visibility:hidden"' : ''}>&larr; Anterior</button>
+            <button class="btn-nav btn-next" onclick="nextChakra()">${ci === CHAKRAS.length - 1 ? 'Ver Resultado &rarr;' : 'Próximo &rarr;'}</button>
+        </div>`;
+
+        page.innerHTML = html;
+        container.appendChild(page);
+    });
+}
+
+function buildQuestionItem(chakraId, index, text) {
+    return `<div class="question-item" id="qi-${chakraId}-${index}">
+        <div class="question-text">${text}</div>
+        <div class="rating-row">
+            <div class="rating-buttons-10">
+                ${Array.from({length:11}, (_, v) =>
+                    `<button class="r10-btn" data-chakra="${chakraId}" data-index="${index}" data-value="${v}" onclick="setAnswer(this,'${chakraId}',${index},${v})">${v}</button>`
+                ).join('')}
+            </div>
+        </div>
+        <div class="rating-zone-label" id="zone-label-${chakraId}-${index}"></div>
+    </div>`;
+}
+
+function setAnswer(btn, chakraId, index, value) {
+    answers[chakraId][index] = value;
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.r10-btn').forEach(b => {
+        b.classList.remove('selected', 'zone-low', 'zone-mid', 'zone-high', 'zone-top');
+    });
+    const zone = getZone(value);
+    btn.classList.add('selected', 'zone-' + zone);
+    const label = document.getElementById(`zone-label-${chakraId}-${index}`);
+    if (label) {
+        label.textContent = ZONE_LABELS[zone];
+        label.style.color = getZoneColor(zone);
+    }
+}
+
+function setNotaFinal(btn, chakraId, value) {
+    notaFinal[chakraId] = value;
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.r10-btn').forEach(b => {
+        b.classList.remove('selected', 'zone-low', 'zone-mid', 'zone-high', 'zone-top');
+    });
+    const zone = getZone(value);
+    btn.classList.add('selected', 'zone-' + zone);
+    const label = document.getElementById(`zone-label-final-${chakraId}`);
+    if (label) {
+        label.textContent = ZONE_LABELS[zone];
+        label.style.color = getZoneColor(zone);
+    }
+}
+
+function showChakraPage(index) {
+    currentChakraIndex = index;
+    document.querySelectorAll('.chakra-page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('chakra-page-' + index);
+    if (page) page.classList.add('active');
+    updateProgress();
+    window.scrollTo(0, 0);
+}
+
+function updateProgress() {
+    const dots = document.querySelectorAll('.progress-dot');
+    dots.forEach((d, i) => {
+        d.classList.remove('current', 'done');
+        if (i < currentChakraIndex) d.classList.add('done');
+        if (i === currentChakraIndex) d.classList.add('current');
+    });
+    document.getElementById('progressText').textContent =
+        `${CHAKRAS[currentChakraIndex].name} — ${currentChakraIndex + 1} de ${CHAKRAS.length}`;
+    document.getElementById('progressBar').style.width =
+        ((currentChakraIndex + 1) / CHAKRAS.length * 100) + '%';
+}
+
+function canNavigateTo(index) {
+    for (let i = 0; i < index; i++) {
+        if (!isPageComplete(i)) return false;
+    }
+    return true;
+}
+
+function isPageComplete(pageIndex) {
+    const c = CHAKRAS[pageIndex !== undefined ? pageIndex : currentChakraIndex];
+    const a = answers[c.id];
+    return !a.some(v => v === null) && notaFinal[c.id] !== null;
+}
+
+function nextChakra() {
+    if (!isPageComplete(currentChakraIndex)) {
+        const c = CHAKRAS[currentChakraIndex];
+        const a = answers[c.id];
+        const firstBlank = a.findIndex(v => v === null);
+        if (firstBlank !== -1) {
+            highlightUnanswered(c.id, firstBlank);
+            return;
+        }
+        if (notaFinal[c.id] === null) {
+            const section = document.querySelector(`#chakra-page-${currentChakraIndex} .nota-final-section`);
+            if (section) {
+                section.style.borderColor = '#ef4444';
+                section.scrollIntoView({ behavior:'smooth', block:'center' });
+                setTimeout(() => { section.style.borderColor = ''; }, 2000);
+            }
+            return;
+        }
+        return;
+    }
+    if (currentChakraIndex < CHAKRAS.length - 1) {
+        showChakraPage(currentChakraIndex + 1);
+    } else {
+        showResults();
+    }
+}
+
+function prevChakra() {
+    if (currentChakraIndex > 0) showChakraPage(currentChakraIndex - 1);
+}
+
+function highlightUnanswered(chakraId, index) {
+    const item = document.getElementById(`qi-${chakraId}-${index}`);
+    if (item) {
+        item.style.borderColor = '#ef4444';
+        item.scrollIntoView({ behavior:'smooth', block:'center' });
+        setTimeout(() => { item.style.borderColor = ''; }, 2000);
+    }
+}
+
+function showResults() {
+    showScreen('results');
+    renderResults();
+}
+
+function getChakraAvg(chakraId) {
+    const a = answers[chakraId];
+    const nf = notaFinal[chakraId];
+    const sum = a.reduce((s, v) => s + v, 0) + nf;
+    return sum / 6;
+}
+
+function getChakraItemsAvg(chakraId) {
+    const a = answers[chakraId];
+    return a.reduce((s, v) => s + v, 0) / 5;
+}
+
+function getStatus(avg) {
+    if (avg >= 7) return 'high';
+    if (avg >= 4) return 'mid';
+    return 'low';
+}
+
+function getStatusLabel(status) {
+    return { high:'Sólido', mid:'Em Construção', low:'Frágil' }[status];
+}
+
+function getStatusClass(status) {
+    return { high:'status-solido', mid:'status-construcao', low:'status-fragil' }[status];
+}
+
+function getChakraLevel(avg) {
+    const pct = Math.round(avg * 10);
+    const level = LEVELS.find(l => pct >= l.min) || LEVELS[LEVELS.length - 1];
+    return { level:level.level, name:level.name, desc:level.desc, pct, colorA:level.colorA, colorB:level.colorB };
+}
+
+function getOverallLevel(avgs) {
+    const avgPct = Math.round(avgs.reduce((s, a) => s + a.avg * 10, 0) / avgs.length);
+    const level = LEVELS.find(l => avgPct >= l.min) || LEVELS[LEVELS.length - 1];
+    return { level:level.level, name:level.name, desc:level.desc, pct:avgPct, colorA:level.colorA, colorB:level.colorB };
+}
+
+function renderResults() {
+    const overview = document.getElementById('resultsOverview');
+    const details = document.getElementById('resultsDetails');
+    overview.innerHTML = '';
+    details.innerHTML = '';
+
+    const scores = CHAKRAS.map((c, i) => ({
+        name: c.name,
+        color: c.color,
+        avg: getChakraAvg(c.id),
+        itemsAvg: getChakraItemsAvg(c.id),
+        notaFinal: notaFinal[c.id]
+    }));
+
+    scores.forEach((sc, idx) => {
+        const c = CHAKRAS[idx];
+        const status = getStatus(sc.avg);
+        const interp = c.interpretations[status];
+        const lvl = getChakraLevel(sc.avg);
+
+        overview.innerHTML += `
+            <div class="result-mini" style="--chakra-color:${c.color}">
+                <div class="name">${c.name}</div>
+                <div class="score-val" style="color:${c.color}">${sc.avg.toFixed(1)}</div>
+                <div class="score-of10">de 10</div>
+                <span class="status-label ${getStatusClass(status)}">${getStatusLabel(status)}</span>
+            </div>`;
+
+        let starsHtml = '';
+        for (let si = 1; si <= 5; si++) {
+            starsHtml += si <= lvl.level ? `<span style="color:${c.color}">&#9733;</span>` : '<span style="color:var(--text-muted)">&#9734;</span>';
+        }
+
+        const avgColor = sc.avg >= 7 ? '#10b981' : sc.avg >= 4 ? '#f59e0b' : '#ef4444';
+        const nfColor = sc.notaFinal >= 7 ? '#10b981' : sc.notaFinal >= 4 ? '#f59e0b' : '#ef4444';
+
+        let itemsHtml = '';
+        answers[c.id].forEach((v, qi) => {
+            const z = getZone(v);
+            const zCol = z === 'low' ? '#ef4444' : z === 'mid' ? '#f59e0b' : z === 'high' ? '#3b82f6' : '#10b981';
+            itemsHtml += `<div class="item-row">
+                <span class="item-text">${c.questions[qi]}</span>
+                <span class="item-score" style="color:${zCol};background:${zCol}15;border:1px solid ${zCol}30">${v}/10</span>
+            </div>`;
+        });
+
+        details.innerHTML += `
+            <div class="result-detail" style="--chakra-color:${c.color}">
+                <div class="result-detail-header">
+                    <h3>${c.name}</h3>
+                    <div style="text-align:right">
+                        <span style="font-size:0.9rem;letter-spacing:3px">${starsHtml}</span>
+                        <div style="font-size:0.7rem;color:${c.color};font-weight:600;margin-top:0.1rem">Nv.${lvl.level} — ${lvl.name}</div>
+                    </div>
+                </div>
+                <div class="score-bars">
+                    <div class="score-row">
+                        <div class="score-label">
+                            <span class="label-text" style="color:var(--accent-amber)">Média dos Itens</span>
+                            <span class="score-value">${sc.itemsAvg.toFixed(1)} / 10</span>
+                        </div>
+                        <div class="score-track"><div class="score-fill" style="width:${sc.itemsAvg*10}%;background:linear-gradient(90deg, var(--accent-amber), #fb923c)"></div></div>
+                    </div>
+                    <div class="score-row">
+                        <div class="score-label">
+                            <span class="label-text" style="color:var(--accent-purple)">Nota Final</span>
+                            <span class="score-value">${sc.notaFinal} / 10</span>
+                        </div>
+                        <div class="score-track"><div class="score-fill" style="width:${sc.notaFinal*10}%;background:linear-gradient(90deg, var(--accent-purple), #a78bfa)"></div></div>
+                    </div>
+                    <div class="score-row">
+                        <div class="score-label">
+                            <span class="label-text" style="color:${avgColor}; font-weight:700">Média Geral</span>
+                            <span class="score-value" style="font-weight:700">${sc.avg.toFixed(1)} / 10</span>
+                        </div>
+                        <div class="score-track"><div class="score-fill" style="width:${sc.avg*10}%;background:${avgColor}"></div></div>
+                    </div>
+                </div>
+                <div class="result-interpretation">
+                    <h4>${interp.title}</h4>
+                    <p>${interp.text}</p>
+                    <p style="margin-top:0.6rem"><strong style="color:var(--accent-amber)">Recomendação:</strong> ${interp.rec}</p>
+                    <span class="phrase">${c.phrase}</span>
+                </div>
+                <div class="items-detail">
+                    ${itemsHtml}
+                </div>
+            </div>`;
+    });
+
+    renderLevelHud(scores);
+    setTimeout(() => drawAllCharts(scores), 100);
+}
+
+function renderLevelHud(scores) {
+    const hud = document.getElementById('levelHud');
+    const overall = getOverallLevel(scores);
+    const nextLevel = LEVELS.find(l => l.level === overall.level + 1);
+    const currentLevelDef = LEVELS.find(l => l.level === overall.level);
+    const progressInLevel = nextLevel
+        ? Math.round(((overall.pct - currentLevelDef.min) / (nextLevel.min - currentLevelDef.min)) * 100)
+        : 100;
+
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+        starsHtml += i <= overall.level
+            ? '<span style="color:var(--accent-amber)">&#9733;</span>'
+            : '<span style="color:var(--text-muted)">&#9734;</span>';
+    }
+
+    let cellsHtml = '';
+    scores.forEach((s, i) => {
+        const chakra = CHAKRAS[i];
+        const lv = getChakraLevel(s.avg);
+        cellsHtml += `
+            <div class="v2-chakra-cell" style="--cell-color:${chakra.color}">
+                <div class="v2-cell-name">${chakra.name}</div>
+                <div class="v2-cell-level" style="color:${chakra.color}">${s.avg.toFixed(1)}</div>
+                <div class="v2-cell-rank">${lv.name}</div>
+                <div class="v2-cell-bar-track">
+                    <div class="v2-cell-bar-fill" style="width:${lv.pct}%"></div>
+                </div>
+                <div class="v2-cell-pct" style="color:${lv.pct >= 70 ? '#10b981' : lv.pct >= 40 ? '#f59e0b' : '#ef4444'}">${lv.pct}%</div>
+            </div>`;
+    });
+
+    const tagColor = overall.colorA;
+    const tagBg = overall.colorA + '20';
+
+    hud.innerHTML = `
+        <div class="v2-card" style="margin-top:1rem">
+            <div style="text-align:center;padding:0.6rem;font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border-subtle);background:rgba(255,255,255,0.01)">Diagnóstico de Resultados — Player Card</div>
+            <div class="v2-header">
+                <div class="v2-avatar">
+                    <canvas id="v2Ring" width="200" height="200"></canvas>
+                    <div class="v2-avatar-center">
+                        <span class="v2-lvl" style="color:${overall.colorA}">${overall.level}</span>
+                        <span class="v2-of">/ 5</span>
+                    </div>
+                </div>
+                <div class="v2-info">
+                    <span class="v2-tag" style="color:${tagColor};background:${tagBg};border:1px solid ${tagColor}44">${overall.name}</span>
+                    <div class="v2-rank-name">Nível ${overall.level} — ${overall.name}</div>
+                    <div class="v2-desc-text">${overall.desc}</div>
+                    <div class="v2-stars">${starsHtml}</div>
+                    <div class="v2-xp-row">
+                        <span class="v2-xp-label">Resultado</span>
+                        <div class="v2-xp-track"><div class="v2-xp-fill" id="v2XpFill" style="width:0%"></div></div>
+                        <span class="v2-pct" style="color:${overall.colorA}">${overall.pct}%</span>
+                    </div>
+                    ${nextLevel ? `<div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.3rem">Próximo nível: ${nextLevel.name} (${nextLevel.min}%)</div>` : '<div style="font-size:0.65rem;color:var(--accent-amber);margin-top:0.3rem">Nível máximo alcançado!</div>'}
+                </div>
+                <div class="v2-stat-number">
+                    <div class="big-pct" style="color:${overall.colorA}">${overall.pct}<span style="font-size:1.2rem">%</span></div>
+                    <div class="pct-label">resultado geral</div>
+                </div>
+            </div>
+            <div class="v2-chakra-row">${cellsHtml}</div>
+        </div>`;
+
+    setTimeout(() => {
+        const fill = document.getElementById('v2XpFill');
+        if (fill) fill.style.width = progressInLevel + '%';
+        drawV2Ring(overall);
+    }, 150);
+}
+
+function drawV2Ring(overall) {
+    const canvas = document.getElementById('v2Ring');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W/2, cy = H/2;
+    const r = (Math.min(W,H)/2) - 14;
+    const lineW = 8;
+    ctx.clearRect(0, 0, W, H);
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = lineW; ctx.stroke();
+    const startAngle = -Math.PI/2;
+    const endAngle = startAngle + (Math.PI*2*(overall.pct/100));
+    ctx.beginPath(); ctx.arc(cx, cy, r, startAngle, endAngle);
+    ctx.strokeStyle = overall.colorA; ctx.lineWidth = lineW; ctx.lineCap = 'round'; ctx.stroke();
+    ctx.shadowColor = overall.colorA; ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(cx + r*Math.cos(endAngle), cy + r*Math.sin(endAngle), lineW/2, 0, Math.PI*2);
+    ctx.fillStyle = overall.colorA; ctx.fill(); ctx.shadowBlur = 0;
+    const colors = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3498db','#6c5ce7','#a855f7'];
+    colors.forEach((col, i) => {
+        const angle = startAngle + (Math.PI*2*((i+1)/7));
+        const x = cx + (r - lineW - 6)*Math.cos(angle);
+        const y = cy + (r - lineW - 6)*Math.sin(angle);
+        ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI*2);
+        ctx.fillStyle = col + '55'; ctx.fill();
+    });
+}
+
+function drawAllCharts(scores) {
+    drawRadarChart(scores);
+    drawBarChart(scores);
+    drawComparisonChart(scores);
+}
+
+function drawRadarChart(scores) {
+    const canvas = document.getElementById('chartRadar');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W/2, cy = H/2;
+    const maxVal = 10;
+    const radius = Math.min(cx, cy) - 60;
+    const n = scores.length;
+    ctx.clearRect(0, 0, W, H);
+
+    for (let ring = 1; ring <= 5; ring++) {
+        const r = radius*(ring/5);
+        ctx.beginPath();
+        for (let i = 0; i <= n; i++) {
+            const angle = (Math.PI*2*(i%n))/n - Math.PI/2;
+            const x = cx + r*Math.cos(angle);
+            const y = cy + r*Math.sin(angle);
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.stroke();
+        if (ring % 2 === 0) {
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            ctx.font = '10px Inter, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText((ring*2).toString(), cx + 4, cy - r + 4);
+        }
+    }
+
+    for (let i = 0; i < n; i++) {
+        const angle = (Math.PI*2*i)/n - Math.PI/2;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + radius*Math.cos(angle), cy + radius*Math.sin(angle));
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.stroke();
+    }
+
+    ctx.beginPath();
+    scores.forEach((s, i) => {
+        const angle = (Math.PI*2*i)/n - Math.PI/2;
+        const r = radius*(s.avg/maxVal);
+        const x = cx + r*Math.cos(angle);
+        const y = cy + r*Math.sin(angle);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(245,158,11,0.15)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(245,158,11,0.85)'; ctx.lineWidth = 2.5; ctx.stroke();
+
+    scores.forEach((s, i) => {
+        const angle = (Math.PI*2*i)/n - Math.PI/2;
+        const labelR = radius + 28;
+        ctx.fillStyle = s.color;
+        ctx.font = '600 13px Inter, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(s.name, cx + labelR*Math.cos(angle), cy + labelR*Math.sin(angle));
+    });
+
+    scores.forEach((s, i) => {
+        const angle = (Math.PI*2*i)/n - Math.PI/2;
+        const r = radius*(s.avg/maxVal);
+        ctx.beginPath(); ctx.arc(cx + r*Math.cos(angle), cy + r*Math.sin(angle), 5, 0, Math.PI*2);
+        ctx.fillStyle = s.color; ctx.fill();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+    });
+}
+
+function drawBarChart(scores) {
+    const canvas = document.getElementById('chartBars');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    const mL = 100, mR = 60, mT = 20, mB = 30;
+    const chartW = W - mL - mR;
+    const chartH = H - mT - mB;
+    const barGroupH = chartH / scores.length;
+    const barH = barGroupH * 0.45;
+    const maxVal = 10;
+
+    for (let tick = 0; tick <= 10; tick += 2) {
+        const x = mL + (tick/maxVal)*chartW;
+        ctx.beginPath(); ctx.moveTo(x, mT); ctx.lineTo(x, H - mB);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(tick, x, H - mB + 16);
+    }
+
+    scores.forEach((s, i) => {
+        const groupY = mT + i*barGroupH;
+        const centerY = groupY + barGroupH/2;
+        const bY = centerY - barH/2;
+        const bW = (s.avg/maxVal)*chartW;
+        ctx.fillStyle = s.color;
+        ctx.font = '600 12px Inter, sans-serif';
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(s.name, mL - 10, centerY);
+        const pct = s.avg/maxVal;
+        let gA, gB;
+        if (pct >= 0.7) { gA = 'rgba(16,185,129,0.8)'; gB = 'rgba(5,150,105,0.9)'; }
+        else if (pct >= 0.4) { gA = 'rgba(245,158,11,0.8)'; gB = 'rgba(217,119,6,0.9)'; }
+        else { gA = 'rgba(239,68,68,0.8)'; gB = 'rgba(220,38,38,0.9)'; }
+        const grad = ctx.createLinearGradient(mL, 0, mL + bW, 0);
+        grad.addColorStop(0, gA); grad.addColorStop(1, gB);
+        ctx.fillStyle = grad;
+        roundRect(ctx, mL, bY, bW, barH, 4); ctx.fill();
+        if (s.avg > 0) {
+            ctx.fillStyle = '#fff'; ctx.font = '600 11px Inter, sans-serif';
+            ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+            ctx.fillText(s.avg.toFixed(1), mL + bW + 8, centerY);
+        }
+    });
+}
+
+function drawComparisonChart(scores) {
+    const canvas = document.getElementById('chartComparison');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    const mL = 100, mR = 60, mT = 20, mB = 30;
+    const chartW = W - mL - mR;
+    const chartH = H - mT - mB;
+    const barGroupH = chartH / scores.length;
+    const barH = barGroupH * 0.3;
+    const maxVal = 10;
+
+    for (let tick = 0; tick <= 10; tick += 2) {
+        const x = mL + (tick/maxVal)*chartW;
+        ctx.beginPath(); ctx.moveTo(x, mT); ctx.lineTo(x, H - mB);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(tick, x, H - mB + 16);
+    }
+
+    scores.forEach((s, i) => {
+        const groupY = mT + i*barGroupH;
+        const centerY = groupY + barGroupH/2;
+        ctx.fillStyle = s.color;
+        ctx.font = '600 12px Inter, sans-serif';
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        ctx.fillText(s.name, mL - 10, centerY);
+
+        const y1 = centerY - barH - 1;
+        const y2 = centerY + 1;
+        const w1 = (s.itemsAvg/maxVal)*chartW;
+        const w2 = (s.notaFinal/maxVal)*chartW;
+
+        const g1 = ctx.createLinearGradient(mL, 0, mL + w1, 0);
+        g1.addColorStop(0, 'rgba(245,158,11,0.6)'); g1.addColorStop(1, 'rgba(245,158,11,0.9)');
+        ctx.fillStyle = g1;
+        roundRect(ctx, mL, y1, w1, barH, 3); ctx.fill();
+
+        const g2 = ctx.createLinearGradient(mL, 0, mL + w2, 0);
+        g2.addColorStop(0, 'rgba(139,92,246,0.6)'); g2.addColorStop(1, 'rgba(139,92,246,0.9)');
+        ctx.fillStyle = g2;
+        roundRect(ctx, mL, y2, w2, barH, 3); ctx.fill();
+
+        ctx.fillStyle = '#fff'; ctx.font = '500 10px Inter, sans-serif';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        if (w1 > 5) ctx.fillText(s.itemsAvg.toFixed(1), mL + w1 + 5, y1 + barH/2);
+        if (w2 > 5) ctx.fillText(s.notaFinal.toFixed(0), mL + w2 + 5, y2 + barH/2);
+    });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    if (w < 1) w = 1;
+    ctx.beginPath();
+    ctx.moveTo(x+r, y); ctx.lineTo(x+w-r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+}
+
+function restartQuiz() { showScreen('landing'); }
+
+function skipToResults() {
+    const dummyItems = [
+        [7,5,8,4,6], [3,6,4,5,2], [8,7,6,8,7], [5,4,3,6,5], [6,7,8,5,7], [4,3,5,4,6], [7,8,6,7,9]
+    ];
+    const dummyFinals = [6, 4, 7, 5, 7, 4, 8];
+    CHAKRAS.forEach((c, i) => {
+        answers[c.id] = dummyItems[i];
+        notaFinal[c.id] = dummyFinals[i];
+    });
+    showResults();
+}
+
+async function exportPDF() {
+    const btn = document.querySelector('.btn-export');
+    btn.disabled = true;
+    const overlay = document.createElement('div');
+    overlay.className = 'pdf-overlay';
+    overlay.innerHTML = '<div class="spinner"></div><p>Gerando seu PDF...</p>';
+    document.body.appendChild(overlay);
+
+    try {
+        if (typeof html2canvas === 'undefined' || !window.jspdf) {
+            throw new Error('Bibliotecas de PDF não carregaram.');
+        }
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const margin = 10;
+        const usableW = pageW - margin*2;
+
+        const sections = [
+            document.getElementById('levelHud'),
+            document.querySelector('.results-overview'),
+            ...document.querySelectorAll('.chart-card'),
+            document.getElementById('resultsDetails')
+        ].filter(el => el && el.innerHTML.trim() !== '');
+
+        let currentY = margin;
+        let isFirstPage = true;
+
+        for (const section of sections) {
+            const canvas = await html2canvas(section, {
+                backgroundColor:'#0a0a0f', scale:2, useCORS:true, logging:false
+            });
+            const imgData = canvas.toDataURL('image/png');
+            const ratio = canvas.width / canvas.height;
+            const imgW = usableW;
+            const imgH = imgW / ratio;
+
+            if (imgH > pageH - margin*2) {
+                let srcY = 0;
+                const sliceHmm = pageH - margin*2;
+                const sliceHpx = (sliceHmm / imgH) * canvas.height;
+                while (srcY < canvas.height) {
+                    if (!isFirstPage || srcY > 0) pdf.addPage();
+                    isFirstPage = false;
+                    const remainPx = Math.min(sliceHpx, canvas.height - srcY);
+                    const sliceCanvas = document.createElement('canvas');
+                    sliceCanvas.width = canvas.width; sliceCanvas.height = remainPx;
+                    const sCtx = sliceCanvas.getContext('2d');
+                    sCtx.drawImage(canvas, 0, srcY, canvas.width, remainPx, 0, 0, canvas.width, remainPx);
+                    const sliceData = sliceCanvas.toDataURL('image/png');
+                    const sliceH = (remainPx / canvas.height) * imgH;
+                    pdf.addImage(sliceData, 'PNG', margin, margin, imgW, sliceH);
+                    srcY += sliceHpx;
+                }
+                currentY = margin;
+                continue;
+            }
+
+            if (currentY + imgH > pageH - margin) {
+                pdf.addPage(); isFirstPage = false; currentY = margin;
+            }
+            if (isFirstPage) isFirstPage = false;
+            pdf.addImage(imgData, 'PNG', margin, currentY, imgW, imgH);
+            currentY += imgH + 4;
+        }
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('pt-BR').replace(/\//g, '-');
+        pdf.save(`Diagnostico-Resultados_${dateStr}.pdf`);
+    } catch (err) {
+        console.error('Erro ao gerar PDF:', err);
+        alert('Erro ao gerar o PDF. Tente novamente.');
+    } finally {
+        overlay.remove();
+        btn.disabled = false;
+    }
+}
+</script>
+</body>
+</html>
